@@ -11,9 +11,13 @@ async function fetchNFLTeams() {
     const response = await axios.get(
       `https://api.sportsdata.io/v3/nfl/scores/json/TeamsBasic?key=${process.env.NFL_API_KEY}`
     );
+    const standing = await axios.get(
+      `https://api.sportsdata.io/v3/nfl/scores/json/Standings/2024?key=${process.env.NFL_API_KEY}`
+    );
     console.log('NFL Teams fetched.');
-    //TODO: Add NFL Teams to database
+    //TODO: Add NFL Teams to database. Poll teams basic and standings
     console.log('NFL Teams:', response.data);
+    console.log('NFL Teams:', standing.data);
   } catch (error) {
     console.error('Error in fetchNFLTeams: ', error.message);
   }
