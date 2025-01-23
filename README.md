@@ -1,1 +1,1 @@
-Initial README
+# Pick Six
