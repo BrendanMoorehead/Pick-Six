@@ -1,11 +1,17 @@
-import supabase from '../db.js'; // Supabase client instance
-
+import supabase from '../db.js';
+/**
+ * insertNFLTeams
+ * Inserts a list of NFL teams into the supabase DB.
+ *
+ * @param {Array} teamsArr - An array of objects containing NFL team data.
+ *
+ * @example
+ * insertNFLTeams(teamsArr);
+ * Creates a row in the nfl_teams table for each team in teamsArr.
+ */
+//TODO: Update if team already exists.
 export async function insertNFLTeams(teamsArr) {
   try {
-    // Log the input object for debugging
-    // console.log('Teams Object:', teamsObj);
-
-    // Perform the batch insert directly with teamsObj
     const { data, error } = await supabase.from('nfl_teams').insert(
       teamsArr.map((team) => ({
         team_id: team.team_id,
@@ -22,9 +28,6 @@ export async function insertNFLTeams(teamsArr) {
       console.error('Failed to insert teams into database:', error.message);
       throw new Error(error.message);
     }
-
-    console.log('Inserted teams:', data);
-    return data;
   } catch (error) {
     console.error('Failed to insert teams into database:', error.message);
     throw error;
