@@ -23,6 +23,19 @@ async function fetchNFLTeams() {
   }
 }
 
-async function fetchTeamRecords() {}
-
-fetchNFLTeams();
+async function fetchCurrentNFLSeason() {
+  try {
+    console.log('Fetching current NFL season...');
+    if (!process.env.NFL_API_KEY)
+      throw new Error('NFL API key is missing. Check .env file.');
+    const response = await axios.get(
+      `https://api.sportsdata.io/v3/nfl/scores/json/CurrentSeason?key=${process.env.NFL_API_KEY}`
+    );
+    console.log('Current NFL season fetched.');
+    console.log(response);
+  } catch (error) {
+    console.error('Error in fetchCurrentNFLSeason: ', error.message);
+  }
+}
+fetchCurrentNFLSeason();
+// fetchNFLTeams();
