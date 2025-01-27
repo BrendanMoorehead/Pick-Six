@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 import axios from 'axios';
-import { insertNFLTeams } from './database.js';
-import { sanitizeTeams } from './helpers.js';
+import { insertNFLTeamRecords, insertNFLTeams } from './database.js';
+import { sanitizeTeams, apiObjectToArr } from './helpers.js';
 dotenv.config();
 /**
  * fetchNFLTeams
@@ -32,8 +32,12 @@ async function fetchTeamRecords(year) {
       `https://api.sportsdata.io/v3/nfl/scores/json/Standings/${year}?key=${process.env.NFL_API_KEY}`
     );
     console.log(`${year} NFL records fetched.`);
+    const teamRecordsArr = apiObjectToArr(response);
+    insertNFLTeamRecords(teamRecordsArr);
     //TODO Insert into
-  } catch (error) {}
+  } catch (error) {
+    console.error('Earror in fetchTeamRecords: ', error.message);
+  }
 }
 async function fetchCurrentNFLSeason() {
   try {
@@ -49,5 +53,6 @@ async function fetchCurrentNFLSeason() {
     console.error('Error in fetchCurrentNFLSeason: ', error.message);
   }
 }
-fetchCurrentNFLSeason();
+fetchTeamRecords(2024);
+// fetchCurrentNFLSeason();
 // fetchNFLTeams();
