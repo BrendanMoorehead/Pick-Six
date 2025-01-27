@@ -22,7 +22,10 @@ async function fetchNFLTeams() {
     console.error('Error in fetchNFLTeams: ', error.message);
   }
 }
-
+/**
+ * fetchTeamRecords
+ * Fetches NFL team record data from the API and inserts it into the database.
+ */
 async function fetchTeamRecords(year) {
   try {
     console.log(`Fetching NFL team records for ${year}...`);
@@ -39,20 +42,21 @@ async function fetchTeamRecords(year) {
     console.error('Earror in fetchTeamRecords: ', error.message);
   }
 }
-async function fetchCurrentNFLSeason() {
+async function fetchNFLSeasonSchedule(year) {
   try {
-    console.log('Fetching current NFL season...');
+    console.log('Fetching current NFL season schedule...');
     if (!process.env.NFL_API_KEY)
       throw new Error('NFL API key is missing. Check .env file.');
     const response = await axios.get(
-      `https://api.sportsdata.io/v3/nfl/scores/json/Standings/2024?key=${process.env.NFL_API_KEY}`
+      `https://api.sportsdata.io/v3/nfl/scores/json/Schedules/${year}?key=${process.env.NFL_API_KEY}`
     );
-    console.log('Current NFL season fetched.');
+    console.log(`${year} NFL season schedule fetched.`);
     console.log(response);
   } catch (error) {
     console.error('Error in fetchCurrentNFLSeason: ', error.message);
   }
 }
-fetchTeamRecords(2024);
+fetchNFLSeasonSchedule(2024);
+// fetchTeamRecords(2024);
 // fetchCurrentNFLSeason();
 // fetchNFLTeams();

@@ -9,7 +9,6 @@ import supabase from '../db.js';
  * insertNFLTeams(teamsArr);
  * Creates a row in the nfl_teams table for each team in teamsArr.
  */
-//TODO: Update if team already exists.
 export async function insertNFLTeams(teamsArr) {
   try {
     const { data, error } = await supabase.from('nfl_teams').upsert(
@@ -33,6 +32,17 @@ export async function insertNFLTeams(teamsArr) {
     throw error;
   }
 }
+
+/**
+ * insertNFLTeamRecords
+ * Inserts all current records for a given season for every team into the supabase DB.
+ *
+ * @param {Array} recordsArr - An array of objects containing NFL team records data.
+ *
+ * @example
+ * insertNFLTeamRecords(recordsArr);
+ * Creates a row in the season_teams table for each team in recordsArr.
+ */
 
 export async function insertNFLTeamRecords(recordsArr) {
   try {
