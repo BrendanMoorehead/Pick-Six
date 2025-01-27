@@ -92,14 +92,37 @@ export async function insertNFLSchedules(schedulesArr) {
           `Failed to upsert batch starting at index ${i}:`,
           error.message
         );
-        // console.error('Batch data:', batch);
         throw new Error(error.message);
       }
-
-      console.log(`Successfully upserted batch ${i / BATCH_SIZE + 1}`);
     }
   } catch (error) {
     console.error('Error in insertNFLSchedules:', error.message);
+    throw error;
+  }
+}
+
+export async function insertNFLFinalScores(scoresArr) {
+  try {
+    const { data, error } = await supabase.from('nfl_scores').upsert(
+      scoresArr.map((score) => ({
+        game_id: score.GlobalGameID,
+        score_id: score.ScoreID,
+        away_team_id: score.GlobalAwayTeamID,
+        home_team_id: score.GlobalHomeTeamID,
+        status: score.Status,
+        date: score.Date,
+        game_end_datetime: score.GameEndDateTime,
+        game_key: score.GameKey,
+        away_score: score.AwayScore,
+        home_score: score.HomeScore,
+      })),
+      { onConflict: ['score_id'] }
+    );
+    if (error) {
+      console.error('Failed to upsert NFL final scores: ', error.message);
+      throw new Error(error.message);
+    }
+  } catch (error) {
     throw error;
   }
 }
