@@ -14,7 +14,7 @@ export function sanitizeTeams(teamsObj) {
   if (typeof teamsObj !== 'object' || teamsObj === null) {
     throw new Error('Invalid input: teamsObj must be a non-null object.');
   }
-  const teamsArr = teamsObj.data;
+  const teamsArr = apiObjectToArr(teamsObj);
 
   if (!Array.isArray(teamsArr)) {
     throw new Error(
@@ -38,3 +38,5 @@ export function sanitizeTeams(teamsObj) {
   });
   return sanitizedTeams;
 }
+
+export const apiObjectToArr = (apiObject) => apiObject.data;

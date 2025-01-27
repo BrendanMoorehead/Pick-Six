@@ -29,7 +29,27 @@ export async function insertNFLTeams(teamsArr) {
       throw new Error(error.message);
     }
   } catch (error) {
-    console.error('Failed to insert teams into database:', error.message);
+    throw error;
+  }
+}
+
+export async function insertNFLTeamRecords(recordsArr) {
+  try {
+    const { data, error } = await supabase.from('season_teams').upsert(
+      recordsArr.map((team) => ({
+        season_type: team.SeasonType,
+        season: team.Season,
+        team_id: team.TeamID,
+        wins: team.Wins,
+        losses: team.Losses,
+      })),
+      { onConflict: ['team_id'] }
+    );
+    if (error) {
+      console.error('Failed to upsert team records: ', error.message);
+      throw new Error(error.message);
+    }
+  } catch (error) {
     throw error;
   }
 }
