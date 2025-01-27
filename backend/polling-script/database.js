@@ -64,3 +64,42 @@ export async function insertNFLTeamRecords(recordsArr) {
     throw error;
   }
 }
+
+export async function insertNFLSchedules(schedulesArr) {
+  const BATCH_SIZE = 10; // Adjust this based on performance
+  try {
+    for (let i = 0; i < schedulesArr.length; i += BATCH_SIZE) {
+      const batch = schedulesArr.slice(i, i + BATCH_SIZE);
+
+      const { data, error } = await supabase.from('nfl_games').upsert(
+        batch.map((game) => ({
+          game_key: game.GameKey,
+          season_type: game.SeasonType,
+          season: game.Season,
+          week: game.Week,
+          date: game.Date,
+          home_team_id: game.GlobalHomeTeamID,
+          away_team_id: game.GlobalAwayTeamID,
+          score_id: game.ScoreID,
+          status: game.Status,
+          game_id: game.GlobalGameID,
+        })),
+        { onConflict: ['game_id'] }
+      );
+
+      if (error) {
+        console.error(
+          `Failed to upsert batch starting at index ${i}:`,
+          error.message
+        );
+        // console.error('Batch data:', batch);
+        throw new Error(error.message);
+      }
+
+      console.log(`Successfully upserted batch ${i / BATCH_SIZE + 1}`);
+    }
+  } catch (error) {
+    console.error('Error in insertNFLSchedules:', error.message);
+    throw error;
+  }
+}
