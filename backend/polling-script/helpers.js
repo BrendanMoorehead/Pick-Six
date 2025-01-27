@@ -1,5 +1,5 @@
 /**
- * sanitizeTeams
+ * sanitizeTeams:
  * Ensures team fields exist and sanitizes the data.
  *
  * @param {Object} teamsObj - An object containing an array, with a list of team objects inside.
@@ -39,7 +39,29 @@ export function sanitizeTeams(teamsObj) {
   return sanitizedTeams;
 }
 
+/**
+ * filterByeWeekGameIDs:
+ * Filters game IDs of 0 (Bye Weeks) from an array of NFL games.
+ *
+ * @param {Array} gamesArr - An array of NFL games.
+ * @returns {Array} - A filtered array of NFL games, without bye weeks.
+ *
+ * @example
+ * data = filterByeWeekGameIDs([{GlobalGameID: 0},{GlobalGameID: 112020}]);
+ * console.log(data); //Prints [{GlobalGameID: 112020}]
+ */
 export const filterByeWeekGameIDs = (gamesArr) =>
   gamesArr.filter((game) => game.GlobalGameID != 0);
 
+/**
+ * apiObjectToArr:
+ * Converts an object from the SportsData.io API to an array.
+ *
+ * @param {Object} apiObject - Any API object containing an array.
+ * @returns {Array} - The array from within the API object.
+ *
+ * @example
+ * const data = apiObjectToArr({[{data: 1}, {data: 2}]});
+ * console.log(data); //Prints [{data: 1}, {data: 2}]
+ */
 export const apiObjectToArr = (apiObject) => apiObject.data;
