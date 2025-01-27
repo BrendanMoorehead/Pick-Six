@@ -5,7 +5,11 @@ import {
   insertNFLTeamRecords,
   insertNFLTeams,
 } from './database.js';
-import { sanitizeTeams, apiObjectToArr } from './helpers.js';
+import {
+  sanitizeTeams,
+  apiObjectToArr,
+  filterByeWeekGameIDs,
+} from './helpers.js';
 dotenv.config();
 /**
  * fetchNFLTeams
@@ -56,7 +60,7 @@ async function fetchNFLSeasonSchedule(year) {
     );
     console.log(`${year} NFL season schedule fetched.`);
     // console.log(response);
-    const seasonScheduleArr = apiObjectToArr(response);
+    const seasonScheduleArr = filterByeWeekGameIDs(apiObjectToArr(response));
     // console.log(seasonScheduleArr);
     console.log(findDuplicateGlobalGameIds(seasonScheduleArr));
 
@@ -74,10 +78,15 @@ fetchNFLSeasonSchedule(2024);
 function findDuplicateGlobalGameIds(dataArray) {
   const idCounts = {};
   const duplicates = new Set();
-  // console.log(dataArray[0]);
+  console.log(dataArray[65]);
   // Count occurrences of each globalGameId
+  let count = 0;
   dataArray.forEach((item) => {
-    if (!item.GlobalGameID) return; // Skip if globalGameId is missing
+    count++;
+    if (!item.GlobalGameID) {
+      console.log('skipped...', count);
+      return;
+    } // Skip if globalGameId is missing
     idCounts[item.GlobalGameID] = (idCounts[item.GlobalGameID] || 0) + 1;
     if (idCounts[item.GlobalGameID] > 1) {
       duplicates.add(item.GlobalGameID);

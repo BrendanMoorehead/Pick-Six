@@ -39,4 +39,7 @@ export function sanitizeTeams(teamsObj) {
   return sanitizedTeams;
 }
 
+export const filterByeWeekGameIDs = (gamesArr) =>
+  gamesArr.filter((game) => game.GlobalGameID != 0);
+
 export const apiObjectToArr = (apiObject) => apiObject.data;
