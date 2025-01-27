@@ -12,7 +12,7 @@ import supabase from '../db.js';
 //TODO: Update if team already exists.
 export async function insertNFLTeams(teamsArr) {
   try {
-    const { data, error } = await supabase.from('nfl_teams').insert(
+    const { data, error } = await supabase.from('nfl_teams').upsert(
       teamsArr.map((team) => ({
         team_id: team.team_id,
         name: team.name,
@@ -21,7 +21,8 @@ export async function insertNFLTeams(teamsArr) {
         primary_color: team.primary_color,
         secondary_color: team.secondary_color,
         tertiary_color: team.tertiary_color,
-      }))
+      })),
+      { onConflict: ['team_id'] }
     );
 
     if (error) {
