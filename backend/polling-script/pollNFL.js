@@ -79,7 +79,7 @@ async function fetchNFLFinalScores(year, week) {
     if (!process.env.NFL_API_KEY)
       throw new Error('NFL API key is missing. Check .env file.');
     const response = await axios.get(
-      `https://api.sportsdata.io/v3/nfl/scores/json/ScoresBasicFinal/${year}/${week}?key=df900cfa449c4629b7daf7ee36a6af69`
+      `https://api.sportsdata.io/v3/nfl/scores/json/ScoresBasicFinal/${year}/${week}?key=${process.env.NFL_API_KEY}`
     );
     console.log(`NFL scores for ${year}: Week ${week} fetched successfully.`);
     const scoresArr = apiObjectToArr(response);
@@ -88,6 +88,47 @@ async function fetchNFLFinalScores(year, week) {
     console.error('Error in fetchNFLFinalScores: ', error.message);
   }
 }
+
+/**
+ * getCompletedWeek:
+ * Gets the "ApiSeason" and "ApiWeek" of the most completed week.
+ * These are used in fetching final scores for the current week.
+ */
+async function getCompletedWeek() {
+  try {
+    console.log('Fetching most recently completed week.');
+    const response = await axios.get(
+      `https://api.sportsdata.io/v3/nfl/scores/json/Timeframes/completed?key=${process.env.NFL_API_KEY}`
+    );
+    return {
+      api_season: response.data[0].ApiSeason,
+      api_week: response.data[0].ApiWeek,
+      has_last_game_ended: response.data[0].HasLastGameEnded,
+    };
+  } catch (error) {
+    console.error('Error in getCompletedWeek: ', error.message);
+  }
+}
+
+/**
+ * populateWeeklyScores
+ * Retrieves the completed season and week id and fetches the completed match scores and populates the nfl_scores table.
+ */
+export async function populateWeeklyScores() {
+  try {
+    const timeframeData = await getCompletedWeek();
+    await fetchNFLFinalScores(timeframeData.api_season, timeframeData.api_week);
+  } catch (error) {
+    console.error('Error in populateWeeklyScores: ', error.message);
+  }
+}
+// await populateWeeklyScores();
+// const data = await getCompletedWeek();
+// console.log(data);
+// const season = await fetchCurrentNFLSeason();
+// const lastWeek = await fetchLastCompletedWeek();
+// console.log(season.data);
+// console.log(lastWeek.data);
 
 // for (let i = 1; i < 19; i++) {
 //   fetchNFLFinalScores(2024, i);
@@ -99,4 +140,11 @@ async function fetchNFLFinalScores(year, week) {
 // fetchCurrentNFLSeason();
 // fetchNFLTeams();
 // queryMatches(2024, 1);
-queryWeeklyMatches(2024, 12);
+// queryWeeklyMatches(2024, 12);
+
+for (let i = 1; i < 5; i++) {
+  fetchNFLFinalScores(`2024POST`, i);
+}
+
+//GETS POST SEASON GAMERS
+//fetchNFLSeasonSchedule(`2024POST`);
