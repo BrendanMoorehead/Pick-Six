@@ -122,6 +122,18 @@ export async function populateWeeklyScores() {
     console.error('Error in populateWeeklyScores: ', error.message);
   }
 }
+
+export async function getNFLScheduleForCurrentYear() {
+  try {
+    console.log('Fetching current/upcoming year...');
+    const year = await axios.get(
+      `https://api.sportsdata.io/v3/nfl/scores/json/UpcomingSeason?key=${process.env.NFL_API_KEY}`
+    );
+    await fetchNFLSeasonSchedule(year);
+  } catch (error) {
+    console.error(error.message);
+  }
+}
 // await populateWeeklyScores();
 // const data = await getCompletedWeek();
 // console.log(data);
