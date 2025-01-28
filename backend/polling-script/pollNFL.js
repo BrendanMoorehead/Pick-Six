@@ -5,6 +5,7 @@ import {
   insertNFLSchedules,
   insertNFLTeamRecords,
   insertNFLTeams,
+  queryWeeklyMatches,
 } from './database.js';
 import {
   sanitizeTeams,
@@ -88,9 +89,15 @@ async function fetchNFLFinalScores(year, week) {
     console.error('Error in fetchNFLFinalScores: ', error.message);
   }
 }
-fetchNFLFinalScores(2024, 1);
+
+// for (let i = 1; i < 19; i++) {
+//   fetchNFLFinalScores(2024, i);
+// }
+// fetchNFLFinalScores(2024, 2);
 // fetchNFLSeasonSchedule(2024);
 // fetchNFLSeasonSchedule(2024);
 // fetchTeamRecords(2024);
 // fetchCurrentNFLSeason();
 // fetchNFLTeams();
+// queryMatches(2024, 1);
+queryWeeklyMatches(2024, 12);

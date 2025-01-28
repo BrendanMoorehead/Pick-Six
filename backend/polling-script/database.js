@@ -126,3 +126,26 @@ export async function insertNFLFinalScores(scoresArr) {
     throw error;
   }
 }
+
+export async function queryWeeklyMatches(season, week) {
+  try {
+    const { data, error } = await supabase.rpc('fetch_nfl_games', {
+      week,
+      season,
+    });
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    console.log(`${season} Season: Week ${week}`);
+    console.log('--------------------------');
+    // data.map((game) => {
+    //   console.log(
+    //     `${game.home_team_name} vs. ${game.away_team_name}: ${game.score_data.home_score} - ${game.score_data.away_score}`
+    //   );
+    // });
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+}
