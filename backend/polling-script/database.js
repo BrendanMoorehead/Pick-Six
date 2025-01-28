@@ -136,9 +136,8 @@ export async function queryWeeklyMatches(season, week) {
     if (error) {
       throw new Error(error.message);
     }
-
-    console.log(`${season} Season: Week ${week}`);
-    console.log('--------------------------');
+    // console.log(`${season} Season: Week ${week}`);
+    // console.log('--------------------------');
     // data.map((game) => {
     //   console.log(
     //     `${game.home_team_name} vs. ${game.away_team_name}: ${game.score_data.home_score} - ${game.score_data.away_score}`
