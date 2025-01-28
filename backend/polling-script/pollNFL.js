@@ -129,7 +129,12 @@ export async function getNFLScheduleForCurrentYear() {
     const year = await axios.get(
       `https://api.sportsdata.io/v3/nfl/scores/json/UpcomingSeason?key=${process.env.NFL_API_KEY}`
     );
-    await fetchNFLSeasonSchedule(year);
+    const yearString = year.data;
+    const preString = yearString + 'PRE';
+    const postString = yearString + 'POST';
+    const preseason = await fetchNFLSeasonSchedule(preString);
+    const regularseason = await fetchNFLSeasonSchedule(yearString);
+    const postseason = await fetchNFLSeasonSchedule(postString);
   } catch (error) {
     console.error(error.message);
   }
