@@ -85,6 +85,6 @@ export function getFirstMondayOfSeptember(year) {
   console.log(`First Game: ${firstGame.toDateString()}`);
 }
 
-getFirstMondayOfSeptember(2025); // Outputs: Mon Sep 01 2025
-getFirstMondayOfSeptember(2026); // Outputs: Mon Sep 07 2026
-getFirstMondayOfSeptember(2027); // Outputs: Mon Sep 07 2026
+// getFirstMondayOfSeptember(2025); // Outputs: Mon Sep 01 2025
+// getFirstMondayOfSeptember(2026); // Outputs: Mon Sep 07 2026
+// getFirstMondayOfSeptember(2027); // Outputs: Mon Sep 07 2026

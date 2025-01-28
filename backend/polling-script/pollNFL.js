@@ -96,7 +96,7 @@ async function fetchNFLFinalScores(year, week) {
  */
 async function getCompletedWeek() {
   try {
-    console.log('Fetching most recently completed week.');
+    console.log('Fetching most recently completed week...');
     const response = await axios.get(
       `https://api.sportsdata.io/v3/nfl/scores/json/Timeframes/completed?key=${process.env.NFL_API_KEY}`
     );
@@ -142,9 +142,9 @@ export async function populateWeeklyScores() {
 // queryMatches(2024, 1);
 // queryWeeklyMatches(2024, 12);
 
-for (let i = 1; i < 5; i++) {
-  fetchNFLFinalScores(`2024POST`, i);
-}
+// for (let i = 1; i < 5; i++) {
+//   fetchNFLFinalScores(`2024POST`, i);
+// }
 
 //GETS POST SEASON GAMERS
 //fetchNFLSeasonSchedule(`2024POST`);

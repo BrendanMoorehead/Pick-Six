@@ -1,3 +1,3 @@
-import { populateWeeklyScores } from './pollNFL';
+import { populateWeeklyScores } from './pollNFL.js';
 
 populateWeeklyScores();
