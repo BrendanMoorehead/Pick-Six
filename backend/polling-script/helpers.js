@@ -65,3 +65,26 @@ export const filterByeWeekGameIDs = (gamesArr) =>
  * console.log(data); //Prints [{data: 1}, {data: 2}]
  */
 export const apiObjectToArr = (apiObject) => apiObject.data;
+
+export function getFirstMondayOfSeptember(year) {
+  const septemberFirst = new Date(year, 8, 1); // September 1st
+  const dayOfWeek = septemberFirst.getDay(); // Day of the week for September 1st (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
+
+  // Calculate offset to the first Monday
+  const offsetToMonday =
+    dayOfWeek === 0 ? 1 : dayOfWeek <= 1 ? 0 : 8 - dayOfWeek;
+
+  // Calculate the first Monday
+  const firstMonday = new Date(year, 8, 1 + offsetToMonday);
+
+  // Calculate the first game (Thursday after the first Monday)
+  const firstGame = new Date(year, 8, firstMonday.getDate() + 3);
+
+  console.log(`Year: ${year}`);
+  console.log(`First Monday: ${firstMonday.toDateString()}`);
+  console.log(`First Game: ${firstGame.toDateString()}`);
+}
+
+getFirstMondayOfSeptember(2025); // Outputs: Mon Sep 01 2025
+getFirstMondayOfSeptember(2026); // Outputs: Mon Sep 07 2026
+getFirstMondayOfSeptember(2027); // Outputs: Mon Sep 07 2026

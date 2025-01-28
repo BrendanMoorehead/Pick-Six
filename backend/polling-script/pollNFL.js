@@ -48,7 +48,6 @@ async function fetchTeamRecords(year) {
     console.log(`${year} NFL records fetched.`);
     const teamRecordsArr = apiObjectToArr(response);
     insertNFLTeamRecords(teamRecordsArr);
-    //TODO Insert into
   } catch (error) {
     console.error('Earror in fetchTeamRecords: ', error.message);
   }
