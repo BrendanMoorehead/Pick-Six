@@ -43,7 +43,6 @@ export async function insertNFLTeams(teamsArr) {
  * insertNFLTeamRecords(recordsArr);
  * Creates a row in the season_teams table for each team in recordsArr.
  */
-
 export async function insertNFLTeamRecords(recordsArr) {
   try {
     const { data, error } = await supabase.from('season_teams').upsert(
@@ -66,7 +65,7 @@ export async function insertNFLTeamRecords(recordsArr) {
 }
 
 export async function insertNFLSchedules(schedulesArr) {
-  const BATCH_SIZE = 10; // Adjust this based on performance
+  const BATCH_SIZE = 50;
   try {
     for (let i = 0; i < schedulesArr.length; i += BATCH_SIZE) {
       const batch = schedulesArr.slice(i, i + BATCH_SIZE);
@@ -136,13 +135,6 @@ export async function queryWeeklyMatches(season, week) {
     if (error) {
       throw new Error(error.message);
     }
-    // console.log(`${season} Season: Week ${week}`);
-    // console.log('--------------------------');
-    // data.map((game) => {
-    //   console.log(
-    //     `${game.home_team_name} vs. ${game.away_team_name}: ${game.score_data.home_score} - ${game.score_data.away_score}`
-    //   );
-    // });
     return data;
   } catch (error) {
     console.error(error);

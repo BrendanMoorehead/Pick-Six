@@ -111,7 +111,7 @@ async function getCompletedWeek() {
 }
 
 /**
- * populateWeeklyScores
+ * populateWeeklyScores:
  * Retrieves the completed season and week id and fetches the completed match scores and populates the nfl_scores table.
  */
 export async function populateWeeklyScores() {
@@ -122,7 +122,10 @@ export async function populateWeeklyScores() {
     console.error('Error in populateWeeklyScores: ', error.message);
   }
 }
-
+/**
+ * getNFLScheduleForCurrentYear:
+ * Retrieves the season details for the current season (upcoming if after Superbowl), then retrieves the schedule for each season type and inserts into nfl_games.
+ */
 export async function getNFLScheduleForCurrentYear() {
   try {
     console.log('Fetching current/upcoming year...');
@@ -139,29 +142,3 @@ export async function getNFLScheduleForCurrentYear() {
     console.error(error.message);
   }
 }
-// await populateWeeklyScores();
-// const data = await getCompletedWeek();
-// console.log(data);
-// const season = await fetchCurrentNFLSeason();
-// const lastWeek = await fetchLastCompletedWeek();
-// console.log(season.data);
-// console.log(lastWeek.data);
-
-// for (let i = 1; i < 19; i++) {
-//   fetchNFLFinalScores(2024, i);
-// }
-// fetchNFLFinalScores(2024, 2);
-// fetchNFLSeasonSchedule(2024);
-// fetchNFLSeasonSchedule(2024);
-// fetchTeamRecords(2024);
-// fetchCurrentNFLSeason();
-// fetchNFLTeams();
-// queryMatches(2024, 1);
-// queryWeeklyMatches(2024, 12);
-
-// for (let i = 1; i < 5; i++) {
-//   fetchNFLFinalScores(`2024POST`, i);
-// }
-
-//GETS POST SEASON GAMERS
-//fetchNFLSeasonSchedule(`2024POST`);
