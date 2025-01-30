@@ -33,7 +33,7 @@ export async function registerUser(req, res) {
   }
 }
 
-export async function signInUser(req, res) {
+export async function loginUser(req, res) {
   const { email, password } = req.body;
   if (!email || !password)
     return res.status(400).json({ error: 'All fields required' });
