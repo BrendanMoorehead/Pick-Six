@@ -32,3 +32,19 @@ export async function registerUser(req, res) {
     res.status(500).json({ error: 'Server error' });
   }
 }
+
+export async function signInUser(req, res) {
+  const { email, password } = req.body;
+  if (!email || !password)
+    return res.status(400).json({ error: 'All fields required' });
+  try {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+    if (error) return res.status(400).json({ error: error.message });
+    res.status(200).json({ message: 'User logged in', user: data.user });
+  } catch (error) {
+    res.status(500).json({ error: 'Server error' });
+  }
+}
