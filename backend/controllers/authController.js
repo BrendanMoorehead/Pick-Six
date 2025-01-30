@@ -1,4 +1,17 @@
 import supabase from '../db.js';
+
+export async function logoutUser(req, res) {
+  const token = req.header('Authorization')?.replace('Bearer ', '');
+  if (!token) return res.status(401).json({ error: 'Unauthorized' });
+  try {
+    const { error } = await supabase.auth.signOut();
+    if (error) return res.status(400).json({ error: error.message });
+    res.status(200).json({ message: 'User logged out' });
+  } catch (error) {
+    res.status(500).json({ error: 'Server error' });
+  }
+}
+
 export async function registerUser(req, res) {
   const { email, password, username } = req.body;
   if (!email || !password || !username)
@@ -43,7 +56,11 @@ export async function loginUser(req, res) {
       password,
     });
     if (error) return res.status(400).json({ error: error.message });
-    res.status(200).json({ message: 'User logged in', user: data.user });
+    res.status(200).json({
+      message: 'User logged in',
+      user: data.user,
+      token: data.session.access_token,
+    });
   } catch (error) {
     res.status(500).json({ error: 'Server error' });
   }
