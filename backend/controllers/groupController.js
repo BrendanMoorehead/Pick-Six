@@ -15,6 +15,10 @@ export async function createGroup(req, res) {
       console.error('Database Error:', error);
       return res.status(500).json({ error: 'Failed to create group' });
     }
+    const { data: member_data, error: member_error } = await supabase
+      .from('group_members')
+      .insert({ user_id: user.id, group_id: data[0].id, role: 'admin' })
+      .select();
     res
       .status(201)
       .json({ message: 'Group created successfully', group: data[0] });
@@ -23,8 +27,6 @@ export async function createGroup(req, res) {
     res.status(500).json({ error: 'Server error' });
   }
 }
-
-export async function acceptInvite(req, res) {}
 
 export async function getInvites(req, res) {
   const user_id = req.query.user_id;
