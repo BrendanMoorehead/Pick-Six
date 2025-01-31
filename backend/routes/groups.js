@@ -15,7 +15,7 @@ export default router;
 //Invite a user: POST
 //The group owner invites a user.
 router.post('/invite', authenticateUser, inviteToGroup);
-router.post('/get_invites', authenticateUser, getInvites);
+router.get('/get_invites', authenticateUser, getInvites);
 //Join a group: POST
 //A user accepts an invite.
 

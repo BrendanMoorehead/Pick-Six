@@ -27,7 +27,7 @@ export async function createGroup(req, res) {
 export async function acceptInvite(req, res) {}
 
 export async function getInvites(req, res) {
-  const user_id = req.params.id;
+  const user_id = req.query.user_id;
   if (!user_id) return res.status(400).json({ error: 'User id is required' });
   try {
     const { data, error } = await supabase
@@ -68,14 +68,19 @@ export async function inviteToGroup(req, res) {
     if (!existing_user)
       return res.status(400).json({ error: 'User not found' });
 
-    const { data: existing_invite, error: existing_invite_error } =
-      await supabase
-        .from('invites')
-        .select('*', { count: 'exact' })
-        .eq('id', group_id)
-        .eq('user_id', invited_user_id);
+    const { count, error: existing_invite_error } = await supabase
+      .from('invites')
+      .select('*', { count: 'exact', head: true }) // ✅ Correct way to count rows
+      .eq('id', group_id)
+      .eq('user_id', invited_user_id);
 
-    if (existing_invite)
+    if (existing_invite_error) {
+      console.error('❌ Supabase Error:', existing_invite_error);
+    } else {
+      console.log('✅ Matching Invite Count:', count);
+    }
+
+    if (count === 1)
       return res
         .status(400)
         .json({ error: 'There is an existing invite for this user' });
