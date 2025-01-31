@@ -58,6 +58,27 @@ export async function deleteGroup(req, res) {
   }
 }
 
+export async function removeUser(req, res) {
+  const group_id = req.query.group_id;
+  const user_id = req.query.user_id;
+  if (!group_id || !user_id)
+    return res.status(400).json({ error: 'Group and user details required' });
+  try {
+    const { data, error } = await supabase
+      .from('group_members')
+      .delete()
+      .eq('group_id', group_id)
+      .eq('user_id', user_id)
+      .select();
+    if (!data || data.length === 0)
+      return res.status(404).json({ message: 'Group member not found' });
+    return res.status(200).json({ message: 'Member removed successfully' });
+  } catch (error) {
+    console.error('Server Error', error);
+    res.status(500).json({ error: 'Server error' });
+  }
+}
+
 export async function declineInvite(req, res) {
   const { group_id, user_id } = req.body;
   if (!group_id || !user_id)
@@ -174,7 +195,7 @@ export async function inviteToGroup(req, res) {
     } else {
       console.log('✅ Matching Invite Count:', count);
     }
-
+    console.log(existing_invite_error);
     if (count === 1)
       return res
         .status(400)

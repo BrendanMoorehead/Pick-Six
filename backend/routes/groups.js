@@ -9,6 +9,7 @@ import {
   acceptInvite,
   declineInvite,
   deleteGroup,
+  removeUser,
 } from '../controllers/groupController.js';
 
 //A user creates a group.
@@ -21,16 +22,13 @@ router.post('/accept', authenticateUser, acceptInvite);
 router.post('/decline', authenticateUser, declineInvite);
 //Get all invites for a given user.
 router.get('/get_invites', authenticateUser, getInvites);
-
+//Group owner deletes a group.
 router.delete('/delete', authenticateUser, deleteGroup);
 //Leave a group: DELETE
 //A user leaves a group.
-
+router.delete('/remove_user', authenticateUser, removeUser);
 //Remove a user (owner only): DELETE
 //The owner removes a user.
-
-//Delete a group (owner only): DELETE
-//The owner deletes the group.
 
 //Get group details: GET
 //Fetch group info and members.
