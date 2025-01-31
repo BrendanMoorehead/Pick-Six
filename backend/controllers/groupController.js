@@ -39,7 +39,6 @@ export async function acceptInvite(req, res) {
       .eq('group_id', group_id)
       .eq('user_id', user_id)
       .select();
-    console.log(invite[0].id);
     if (invite.length === 0)
       return res.status(400).json({ error: 'Invite not found' });
     const { data: group, error: group_error } = await supabase
@@ -52,8 +51,6 @@ export async function acceptInvite(req, res) {
         },
       ])
       .select();
-    //TODO: Remove invite from table
-    console.log(group, group_error);
     const { data, error } = await supabase
       .from('invites')
       .delete()
