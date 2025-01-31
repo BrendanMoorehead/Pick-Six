@@ -28,6 +28,32 @@ export async function createGroup(req, res) {
   }
 }
 
+export async function declineInvite(req, res) {
+  const { group_id, user_id } = req.body;
+  if (!group_id || !user_id)
+    return res.status(400).json({ error: 'Invite details required' });
+  const { data: invite, error: invite_error } = await supabase
+    .from('invites')
+    .select()
+    .eq('group_id', group_id)
+    .eq('user_id', user_id)
+    .select();
+  if (invite.length === 0)
+    return res.status(400).json({ error: 'Invite not found' });
+  const { data, error } = await supabase
+    .from('invites')
+    .delete()
+    .eq('id', invite[0].id);
+  res.status(200).json({
+    message: 'Invite removed',
+  });
+  try {
+  } catch (error) {
+    console.error('Server Error', error);
+    res.status(500).json({ error: 'Server error' });
+  }
+}
+
 export async function acceptInvite(req, res) {
   const { group_id, user_id } = req.body;
   if (!group_id || !user_id)
