@@ -6,6 +6,7 @@ import {
   createGroup,
   inviteToGroup,
   getInvites,
+  acceptInvite,
 } from '../controllers/groupController.js';
 //Create a group: POST
 //A user creates a group.
@@ -15,6 +16,7 @@ export default router;
 //Invite a user: POST
 //The group owner invites a user.
 router.post('/invite', authenticateUser, inviteToGroup);
+router.post('/accept', authenticateUser, acceptInvite);
 router.get('/get_invites', authenticateUser, getInvites);
 //Join a group: POST
 //A user accepts an invite.
