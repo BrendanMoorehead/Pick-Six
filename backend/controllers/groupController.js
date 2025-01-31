@@ -25,10 +25,19 @@ export async function createGroup(req, res) {
 }
 
 export async function inviteToGroup(req, res) {
-  const { group_id, invited_user_id } = req.body;
+  const { group_id, invited_user_id, sending_user_id } = req.body;
   if (!group_id || !invited_user_id)
     return res.status(400).json({ error: 'All fields required' });
   try {
+    const { data: group, error: group_error } = await supabase
+      .from('groups')
+      .select()
+      .eq('created_by', sending_user_id)
+      .eq('id', group_id)
+      .select();
+    if (!group)
+      return res.status(400).json({ error: "User doesn't own the group" });
+
     const { data: existing_user, error: user_fetch_error } = await supabase
       .from('users')
       .select('id')
