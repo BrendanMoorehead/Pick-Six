@@ -71,7 +71,7 @@ export async function inviteToGroup(req, res) {
     const { count, error: existing_invite_error } = await supabase
       .from('invites')
       .select('*', { count: 'exact', head: true }) // ✅ Correct way to count rows
-      .eq('id', group_id)
+      .eq('group_id', group_id)
       .eq('user_id', invited_user_id);
 
     if (existing_invite_error) {
