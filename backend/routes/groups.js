@@ -8,21 +8,21 @@ import {
   getInvites,
   acceptInvite,
   declineInvite,
+  deleteGroup,
 } from '../controllers/groupController.js';
-//Create a group: POST
+
 //A user creates a group.
-//authenticateUser protects this route
 router.post('/create', authenticateUser, createGroup);
-export default router;
-//Invite a user: POST
 //The group owner invites a user.
 router.post('/invite', authenticateUser, inviteToGroup);
+//The invited user accepts.
 router.post('/accept', authenticateUser, acceptInvite);
+//The invited user declines.
 router.post('/decline', authenticateUser, declineInvite);
+//Get all invites for a given user.
 router.get('/get_invites', authenticateUser, getInvites);
-//Join a group: POST
-//A user accepts an invite.
 
+router.delete('/delete', authenticateUser, deleteGroup);
 //Leave a group: DELETE
 //A user leaves a group.
 
@@ -43,3 +43,4 @@ router.get('/get_invites', authenticateUser, getInvites);
 
 //List user picks: GET
 //Fetch all picks for a user for a group.
+export default router;

@@ -1,5 +1,15 @@
 import supabase from '../db.js';
 
+/**
+ * @route POST /groups/create
+ * @desc Creates a new group
+ * @access Private (Requires authentication)
+ * @param {Object} req.body - The request body
+ * @param {string} req.body.group_name - The name of the group
+ * @returns {Object} 201 - Group created successfully
+ * @returns {Object} 400 - Missing required fields
+ * @returns {Object} 500 - Server error
+ */
 export async function createGroup(req, res) {
   const { group_name } = req.body;
   if (!group_name)
@@ -22,6 +32,26 @@ export async function createGroup(req, res) {
     res
       .status(201)
       .json({ message: 'Group created successfully', group: data[0] });
+  } catch (error) {
+    console.error('Server Error', error);
+    res.status(500).json({ error: 'Server error' });
+  }
+}
+
+export async function deleteGroup(req, res) {
+  const group_id = req.query.group_id;
+  if (!group_id) return res.status(400).json({ error: 'Group id required' });
+  try {
+    const { data, error } = await supabase
+      .from('groups')
+      .delete()
+      .eq('id', group_id)
+      .select();
+    if (!data || data.length === 0) {
+      return res.status(404).json({ error: 'Group not found' });
+    }
+
+    res.status(200).json({ message: 'Group deleted successfully' });
   } catch (error) {
     console.error('Server Error', error);
     res.status(500).json({ error: 'Server error' });
