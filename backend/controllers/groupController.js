@@ -24,6 +24,26 @@ export async function createGroup(req, res) {
   }
 }
 
+export async function acceptInvite(req, res) {}
+
+export async function getInvites(req, res) {
+  const user_id = req.params.id;
+  if (!user_id) return res.status(400).json({ error: 'User id is required' });
+  try {
+    const { data, error } = await supabase
+      .from('invites')
+      .select()
+      .eq('user_id', user_id);
+
+    if (error)
+      return res.status(400).json({ error: 'Failed to get group invites' });
+    res.status(200).json(data);
+  } catch (error) {
+    console.error('Server Error', error);
+    res.status(500).json({ error: 'Server error' });
+  }
+}
+
 export async function inviteToGroup(req, res) {
   const { group_id, invited_user_id, sending_user_id } = req.body;
   if (!group_id || !invited_user_id)
@@ -47,6 +67,18 @@ export async function inviteToGroup(req, res) {
       return res.status(500).json({ error: user_fetch_error });
     if (!existing_user)
       return res.status(400).json({ error: 'User not found' });
+
+    const { data: existing_invite, error: existing_invite_error } =
+      await supabase
+        .from('invites')
+        .select('*', { count: 'exact' })
+        .eq('id', group_id)
+        .eq('user_id', invited_user_id);
+
+    if (existing_invite)
+      return res
+        .status(400)
+        .json({ error: 'There is an existing invite for this user' });
 
     const { data, error } = await supabase
       .from('invites')

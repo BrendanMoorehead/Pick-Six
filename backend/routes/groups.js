@@ -2,7 +2,11 @@
 import express from 'express';
 const router = express.Router();
 import { authenticateUser } from '../middleware/auth.js';
-import { createGroup, inviteToGroup } from '../controllers/groupController.js';
+import {
+  createGroup,
+  inviteToGroup,
+  getInvites,
+} from '../controllers/groupController.js';
 //Create a group: POST
 //A user creates a group.
 //authenticateUser protects this route
@@ -11,7 +15,7 @@ export default router;
 //Invite a user: POST
 //The group owner invites a user.
 router.post('/invite', authenticateUser, inviteToGroup);
-
+router.post('/get_invites', authenticateUser, getInvites);
 //Join a group: POST
 //A user accepts an invite.
 
