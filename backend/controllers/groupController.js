@@ -160,6 +160,34 @@ export async function getInvites(req, res) {
   }
 }
 
+export async function getGroups(req, res) {
+  const user_id = req.query.user_id;
+  if (!user_id) return res.status(400).json({ error: 'User id is required' });
+  try {
+    const { data, error } = await supabase
+      .from('group_members')
+      .select('group_id')
+      .eq('user_id', user_id);
+    console.log(data);
+    if (error)
+      return res
+        .status(400)
+        .json({ error: 'Failed to get group ids for member' });
+    const group_ids = data.map((group) => group.group_id);
+    console.log(group_ids);
+    const { data: groups, error: groups_error } = await supabase
+      .from('groups')
+      .select('*')
+      .in('id', group_ids);
+    if (groups_error)
+      return res.status(400).json({ error: 'Failed to get groups' });
+    res.status(200).json(groups);
+  } catch (error) {
+    console.error('Server Error', error);
+    res.status(500).json({ error: 'Server error' });
+  }
+}
+
 export async function inviteToGroup(req, res) {
   const { group_id, invited_user_id, sending_user_id } = req.body;
   if (!group_id || !invited_user_id)
