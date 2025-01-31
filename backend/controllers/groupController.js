@@ -23,3 +23,37 @@ export async function createGroup(req, res) {
     res.status(500).json({ error: 'Server error' });
   }
 }
+
+export async function inviteToGroup(req, res) {
+  const { group_id, invited_user_id } = req.body;
+  if (!group_id || !invited_user_id)
+    return res.status(400).json({ error: 'All fields required' });
+  try {
+    const { data: existing_user, error: user_fetch_error } = await supabase
+      .from('users')
+      .select('id')
+      .eq('id', invited_user_id)
+      .single();
+    if (user_fetch_error)
+      return res.status(500).json({ error: user_fetch_error });
+    if (!existing_user)
+      return res.status(400).json({ error: 'User not found' });
+
+    const { data, error } = await supabase
+      .from('invites')
+      .insert([{ group_id, user_id: invited_user_id }])
+      .select();
+
+    if (error) {
+      console.error('Database error');
+      return res.status(500).json({ error: 'Failed to invite user to group' });
+    }
+    res.status(201).json({
+      message: 'Invite sent successfully',
+      data: data,
+    });
+  } catch (error) {
+    console.error('Server Error', error);
+    res.status(500).json({ error: 'Server error' });
+  }
+}
