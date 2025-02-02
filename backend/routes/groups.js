@@ -27,15 +27,9 @@ router.get('/get_invites', authenticateUser, getInvites);
 router.delete('/delete', authenticateUser, deleteGroup);
 //A user leaves a group or is removed.
 router.delete('/remove_user', authenticateUser, removeUser);
+//Fetch groups user is a part of.
+router.get('/get_groups', authenticateUser, getGroups);
 //Get group details: GET
 //Fetch group info and members.
 
-//List user's groups: GET
-//Fetch groups user is a part of.
-router.get('/get_groups', authenticateUser, getGroups);
-//Submit a pick: POST
-//A user submits a pick.
-
-//List user picks: GET
-//Fetch all picks for a user for a group.
 export default router;
