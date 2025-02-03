@@ -1,6 +1,4 @@
-//Implements the logic for handling API requests
 import supabase from '../db.js';
-
 /**
  * @route GET /games/get
  * @desc Gets all games for a given season and their team details.
