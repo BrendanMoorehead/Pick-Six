@@ -13,7 +13,7 @@ import supabase from '../db.js';
 export async function createGroup(req, res) {
   const { group_name } = req.body;
   if (!group_name)
-    return res.status(400).json({ error: 'Group name is required' });
+    return res.status(400).json({ error: 'Missing required fields' });
   try {
     const user = req.user.user;
     const { data, error } = await supabase
@@ -23,12 +23,15 @@ export async function createGroup(req, res) {
 
     if (error) {
       console.error('Database Error:', error);
-      return res.status(500).json({ error: 'Failed to create group' });
+      return res.status(500).json({ error: 'Failed to insert group' });
     }
-    const { data: member_data, error: member_error } = await supabase
+    const {error: member_error } = await supabase
       .from('group_members')
-      .insert({ user_id: user.id, group_id: data[0].id, role: 'admin' })
-      .select();
+      .insert({ user_id: user.id, group_id: data[0].id, role: 'admin' });
+    if (member_error) {
+      console.error('Database Error:', member_error);
+      return res.status(500).json({ error: 'Failed to insert self as group member' });
+    }
     res
       .status(201)
       .json({ message: 'Group created successfully', group: data[0] });
@@ -38,31 +41,53 @@ export async function createGroup(req, res) {
   }
 }
 
+/**
+ * @route POST /groups/delete
+ * @desc Deletes a group
+ * @access Private (Requires authentication)
+ * @param {Object} req.query - The request query
+ * @param {string} req.query.group_id - The id of the group to delete
+ * @returns {Object} 204 - Group deleted successfully
+ * @returns {Object} 400 - Missing required fields
+ * @returns {Object} 404 - Group does not exist
+ * @returns {Object} 500 - Server error
+ */
 export async function deleteGroup(req, res) {
   const group_id = req.query.group_id;
-  if (!group_id) return res.status(400).json({ error: 'Group id required' });
+  if (!group_id) return res.status(400).json({ error: 'Missing required fields' });
   try {
     const { data, error } = await supabase
       .from('groups')
       .delete()
       .eq('id', group_id)
       .select();
+    if (error) return res.status(500).json({ error: 'Failed to find group' });
     if (!data || data.length === 0) {
-      return res.status(404).json({ error: 'Group not found' });
+      return res.status(404).json({ error: 'Group does not exist' });
     }
-
-    res.status(200).json({ message: 'Group deleted successfully' });
+    res.status(204).json({ message: 'Group deleted successfully' });
   } catch (error) {
     console.error('Server Error', error);
     res.status(500).json({ error: 'Server error' });
   }
 }
 
+/**
+ * @route POST /groups/remove_user
+ * @desc Removes a user from a group
+ * @access Private (Requires authentication)
+ * @param {Object} req.query - The request query
+ * @param {string} req.query.group_id - The id of the group to remove user from
+ * @param {string} req.query.user_id - The id of the user to remove from the group
+ * @returns {Object} 204 - Member removed successfully
+ * @returns {Object} 400 - Missing required fields
+ * @returns {Object} 404 - Failed to find group member
+ * @returns {Object} 500 - Server error
+ */
 export async function removeUser(req, res) {
-  const group_id = req.query.group_id;
-  const user_id = req.query.user_id;
+  const {group_id, user_id} = req.query;
   if (!group_id || !user_id)
-    return res.status(400).json({ error: 'Group and user details required' });
+    return res.status(400).json({ error: 'Missing required fields' });
   try {
     const { data, error } = await supabase
       .from('group_members')
@@ -70,15 +95,28 @@ export async function removeUser(req, res) {
       .eq('group_id', group_id)
       .eq('user_id', user_id)
       .select();
+    if (error) return res.status(500).json({ error: 'Failed to remove user from group' });
     if (!data || data.length === 0)
-      return res.status(404).json({ message: 'Group member not found' });
-    return res.status(200).json({ message: 'Member removed successfully' });
+      return res.status(404).json({ message: 'Failed to find group member' });
+    return res.status(204).json({ message: 'Member removed successfully' });
   } catch (error) {
     console.error('Server Error', error);
     res.status(500).json({ error: 'Server error' });
   }
 }
 
+/**
+ * @route POST /groups/decline
+ * @desc Deletes an invite
+ * @access Private (Requires authentication)
+ * @param {Object} req.body - The request body
+ * @param {string} req.body.group_id - The id of the invite to delete
+ * @param {string} req.body.user_id - The id of the user who got the invite
+ * @returns {Object} 204 - Group deleted successfully
+ * @returns {Object} 400 - Missing required fields
+ * @returns {Object} 404 - Group does not exist
+ * @returns {Object} 500 - Server error
+ */
 export async function declineInvite(req, res) {
   const { group_id, user_id } = req.body;
   if (!group_id || !user_id)
@@ -89,13 +127,14 @@ export async function declineInvite(req, res) {
     .eq('group_id', group_id)
     .eq('user_id', user_id)
     .select();
+  if (invite_error) return res.status(500).json({ error: 'Failed to find invite' });
   if (invite.length === 0)
-    return res.status(400).json({ error: 'Invite not found' });
+    return res.status(404).json({ error: 'Failed to find invite' });
   const { data, error } = await supabase
     .from('invites')
     .delete()
     .eq('id', invite[0].id);
-  res.status(200).json({
+  res.status(204).json({
     message: 'Invite removed',
   });
   try {
