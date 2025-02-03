@@ -188,6 +188,26 @@ export async function getGroups(req, res) {
   }
 }
 
+export async function getGroupInfo(req, res) {
+  const group_id = req.query.group_id;
+  if (!group_id)
+    return res.status(400).json({ error: 'Missing required data' });
+  try {
+    const { data, error } = await supabase.rpc('get_group_with_members', {
+      group_id_input: group_id,
+    });
+
+    console.log(data);
+    res.status(201).json({
+      message: 'Group details fetched',
+      data: data,
+    });
+  } catch (error) {
+    console.error('Server Error', error);
+    res.status(500).json({ error: 'Server error' });
+  }
+}
+
 export async function inviteToGroup(req, res) {
   const { group_id, invited_user_id, sending_user_id } = req.body;
   if (!group_id || !invited_user_id)

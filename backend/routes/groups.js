@@ -11,6 +11,7 @@ import {
   deleteGroup,
   removeUser,
   getGroups,
+  getGroupInfo,
 } from '../controllers/groupController.js';
 
 //A user creates a group.
@@ -29,7 +30,7 @@ router.delete('/delete', authenticateUser, deleteGroup);
 router.delete('/remove_user', authenticateUser, removeUser);
 //Fetch groups user is a part of.
 router.get('/get_groups', authenticateUser, getGroups);
-//Get group details: GET
 //Fetch group info and members.
+router.get('/info', authenticateUser, getGroupInfo);
 
 export default router;
