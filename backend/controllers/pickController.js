@@ -39,3 +39,33 @@ export async function makePick(req, res) {
     res.status(500).json({ error: 'Server error' });
   }
 }
+
+/**
+ * @route GET /picks/group_picks
+ * @desc Get all picks for a group
+ * @access Private (Requires authentication)
+ * @param {Object} req.query - The request query
+ * @param {string} req.query.group_id - The group for which to get the picks
+ * @returns {Object} 200 - Pick fetched successfully
+ * @returns {Object} 400 - Missing required fields
+ * @returns {Object} 500 - Server error
+ */
+export async function getGroupPicks(req, res) {
+  const group_id = req.query.group_id;
+  if (!group_id)
+    return res.status(400).json({ error: 'Missing required data' });
+  try {
+    const { data, error } = await supabase.rpc('get_user_picks_for_group', {
+      group_param: group_id,
+    });
+    console.log(data, error);
+    if (error)
+      return res
+        .status(500)
+        .json({ error: `Failed to get picks for group ${group_id}` });
+    res.status(200).json(data);
+  } catch (error) {
+    console.error('Server Error', error);
+    res.status(500).json({ error: 'Server error' });
+  }
+}
