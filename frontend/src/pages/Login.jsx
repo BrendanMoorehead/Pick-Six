@@ -1,11 +1,12 @@
 import { useState } from 'react';
-
+import { supabase } from '../../supabaseClient';
+import { useNavigate } from 'react-router-dom';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-
+  const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
@@ -16,19 +17,17 @@ const Login = () => {
       return;
     }
     try {
-      const response = await fetch('http://localhost:5000/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
       });
-      const data = await response.json();
-      console.log(data);
-      if (response.ok) {
-        console.log('Login successful:', data);
+      if (error) {
+        setError(error.message);
       } else {
-        setError(data.error || 'Failed to login');
+        navigate('/home');
       }
     } catch (error) {
+      console.log(error);
       setError('Login failed');
       setIsLoading(false);
     } finally {
