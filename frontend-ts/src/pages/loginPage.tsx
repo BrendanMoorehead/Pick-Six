@@ -1,6 +1,11 @@
 import LoginForm from '@/components/forms/LoginForm';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
+import { useAuth } from '@/contexts/AuthContext';
 export default function LoginPage() {
+  const { user } = useAuth();
+  if (user) {
+    return <Navigate to="/" />;
+  }
   return (
     <div className="flex flex-col items-center sm:py-12 lg:flex-row h-screen">
       <div className="hidden lg:flex lg:w-1/2 h-screen p-4">
