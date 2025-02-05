@@ -3,6 +3,7 @@ import { Input } from '@heroui/input';
 import { Button } from '@heroui/button';
 import { Formik, Form, Field } from 'formik';
 import { Link } from '@heroui/link';
+import { supabase } from '../../../supabaseClient';
 import { PasswordInput } from '@/components/PasswordInput';
 const validate = (values: { email: string; password: string }) => {
   const errors: { email?: string; password?: string } = {};
@@ -18,8 +19,17 @@ const validate = (values: { email: string; password: string }) => {
 };
 
 export default function LoginForm() {
-  const handleSubmit = (values: { email: string; password: string }) => {
-    console.log(values);
+  const handleSubmit = async (values: { email: string; password: string }) => {
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email: values.email,
+        password: values.password,
+      });
+      if (error) throw error;
+      console.log('Login successful');
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
