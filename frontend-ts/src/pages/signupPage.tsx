@@ -1,4 +1,4 @@
-import LoginForm from '@/components/forms/LoginForm';
+import SignupForm from '@/components/forms/SignupForm';
 import { Link } from 'react-router-dom';
 export default function LoginPage() {
   return (
@@ -15,15 +15,17 @@ export default function LoginPage() {
         <p className="text-2xl font-bold font-serif">PICKSIX</p>
         <div className="flex flex-col gap-24">
           <div className="flex flex-col items-center justify-center gap-2">
-            <h2 className="text-4xl font-bold font-serif">Welcome Back</h2>
-            <p>Enter your email and password to access your account</p>
+            <h2 className="text-4xl font-bold font-serif">
+              Create Your Account
+            </h2>
+            <p>Enter your details to get started</p>
           </div>
-          <LoginForm />
+          <SignupForm />
         </div>
         <p>
-          Don't have an account?{' '}
-          <Link className="font-bold" to="/signup">
-            Sign up
+          Already have an account?{' '}
+          <Link className="font-bold" to="/login">
+            Log in
           </Link>
         </p>
       </div>

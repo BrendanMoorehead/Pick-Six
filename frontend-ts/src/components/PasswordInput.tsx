@@ -3,6 +3,9 @@ import { useState } from 'react';
 
 interface PasswordInputProps {
   password: string;
+  label?: string;
+  placeholder?: string;
+  name?: string;
   handleChange: any;
   handleBlur: any;
 }
@@ -10,6 +13,9 @@ export const PasswordInput = ({
   password,
   handleChange,
   handleBlur,
+  label = 'Password',
+  placeholder = 'Enter your password',
+  name = 'password',
 }: PasswordInputProps) => {
   const [isVisible, setIsVisible] = useState(false);
 
@@ -30,11 +36,11 @@ export const PasswordInput = ({
           )}
         </button>
       }
-      name="password"
+      name={name}
       type={isVisible ? 'text' : 'password'}
-      label="Password"
+      label={label}
       labelPlacement="outside"
-      placeholder="Enter your password"
+      placeholder={placeholder}
       value={password}
       onChange={handleChange}
       onBlur={handleBlur}
