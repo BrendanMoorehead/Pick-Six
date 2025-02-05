@@ -11,7 +11,7 @@ export default function LoginPage() {
           />
         </div>
       </div>
-      <div className="w-full lg:w-1/2 flex flex-col items-center md:py-12 h-screen justify-between gap-y-12 ">
+      <div className="w-full lg:w-1/2 flex flex-col items-center py-12 h-screen justify-between gap-y-12 ">
         <p className="text-2xl font-bold font-serif">PICKSIX</p>
         <div className="flex flex-col gap-24">
           <div className="flex flex-col items-center justify-center gap-2">

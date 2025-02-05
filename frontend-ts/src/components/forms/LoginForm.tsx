@@ -31,7 +31,7 @@ export default function LoginForm() {
       >
         {({ values, errors, touched, handleChange, handleBlur }) => (
           <Form className="flex flex-col gap-6">
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-2">
               <Input
                 name="email"
                 type="email"
@@ -46,7 +46,7 @@ export default function LoginForm() {
                 <p className="text-red-700 text-xs">{errors.email}</p>
               )}
             </div>
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-2">
               <PasswordInput
                 password={values.password}
                 handleChange={handleChange}
@@ -57,7 +57,7 @@ export default function LoginForm() {
               )}
               <Link
                 href="/forgot-password"
-                className="text-sm text-black justify-end font-bold"
+                className="text-xs text-black justify-end font-bold"
               >
                 Forgot Password
               </Link>
