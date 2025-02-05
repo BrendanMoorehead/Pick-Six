@@ -4,9 +4,9 @@ export default function LoginPage() {
   return (
     <div className="flex flex-col items-center sm:py-12 lg:flex-row h-screen">
       <div className="hidden lg:flex lg:w-1/2 h-screen p-4">
-        <div className=" h-full w-full ">
+        <div className="h-full w-full">
           <img
-            className="rounded-3xl"
+            className="rounded-3xl w-full h-full object-cover"
             src="https://static01.nyt.com/images/2022/11/10/sports/10nfl-scoring-3/10nfl-scoring-3-mediumSquareAt3X.jpg"
           />
         </div>
