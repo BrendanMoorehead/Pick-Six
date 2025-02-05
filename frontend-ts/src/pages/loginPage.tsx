@@ -4,6 +4,7 @@ import { useAuth } from '@/contexts/AuthContext';
 export default function LoginPage() {
   const { user } = useAuth();
   if (user) {
+    console.log('User is logged in', user);
     return <Navigate to="/" />;
   }
   return (

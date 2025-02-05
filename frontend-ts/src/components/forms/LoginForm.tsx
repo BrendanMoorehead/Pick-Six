@@ -21,12 +21,12 @@ const validate = (values: { email: string; password: string }) => {
 export default function LoginForm() {
   const handleSubmit = async (values: { email: string; password: string }) => {
     try {
-      const { error } = await supabase.auth.signInWithPassword({
+      const { data, error } = await supabase.auth.signInWithPassword({
         email: values.email,
         password: values.password,
       });
       if (error) throw error;
-      console.log('Login successful');
+      console.log('Login successful', data);
     } catch (error) {
       console.log(error);
     }
