@@ -4,9 +4,9 @@ import { Input } from '@heroui/input';
 export default function IndexPage() {
   return (
     <DefaultLayout>
-      <p>HELLO BAND</p>
-      <Input />
-      <LoginForm />
+      <div className="w-4xl max-w-md">
+        <LoginForm />
+      </div>
     </DefaultLayout>
   );
 }

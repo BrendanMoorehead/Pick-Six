@@ -30,30 +30,42 @@ export default function LoginForm() {
         validate={validate}
       >
         {({ values, errors, touched, handleChange, handleBlur }) => (
-          <Form>
-            <Input
-              name="email"
-              type="email"
-              label="Email"
-              labelPlacement="outside"
-              placeholder="Enter your email"
-              value={values.email}
-              onChange={handleChange}
-              onBlur={handleBlur}
-            />
-            {errors.email && touched.email && (
-              <p className="text-red-700 text-xs">{errors.email}</p>
-            )}
-            <PasswordInput
-              password={values.password}
-              handleChange={handleChange}
-              handleBlur={handleBlur}
-            />
-            {errors.password && touched.password && (
-              <p className="text-red-700 text-xs">{errors.password}</p>
-            )}
-            <Link href="/forgot-password">Forgot password?</Link>
-            <Button type="submit">Login</Button>
+          <Form className="flex flex-col gap-6">
+            <div className="flex flex-col gap-1">
+              <Input
+                name="email"
+                type="email"
+                label="Email"
+                labelPlacement="outside"
+                placeholder="Enter your email"
+                value={values.email}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+              {errors.email && touched.email && (
+                <p className="text-red-700 text-xs">{errors.email}</p>
+              )}
+            </div>
+            <div className="flex flex-col gap-1">
+              <PasswordInput
+                password={values.password}
+                handleChange={handleChange}
+                handleBlur={handleBlur}
+              />
+              {errors.password && touched.password && (
+                <p className="text-red-700 text-xs">{errors.password}</p>
+              )}
+              <Link
+                href="/forgot-password"
+                className="text-sm text-black justify-end font-bold"
+              >
+                Forgot Password
+              </Link>
+            </div>
+
+            <Button type="submit" className="bg-green-900 text-white font-bold">
+              Sign In
+            </Button>
           </Form>
         )}
       </Formik>
