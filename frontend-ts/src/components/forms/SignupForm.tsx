@@ -102,7 +102,10 @@ export default function LoginForm() {
               )}
             </div>
 
-            <Button type="submit" className="bg-green-900 text-white font-bold">
+            <Button
+              type="submit"
+              className="bg-green-900 text-white font-bold mt-4"
+            >
               Sign Up
             </Button>
           </Form>
