@@ -25,12 +25,14 @@ export async function createGroup(req, res) {
       console.error('Database Error:', error);
       return res.status(500).json({ error: 'Failed to insert group' });
     }
-    const {error: member_error } = await supabase
+    const { error: member_error } = await supabase
       .from('group_members')
       .insert({ user_id: user.id, group_id: data[0].id, role: 'admin' });
     if (member_error) {
       console.error('Database Error:', member_error);
-      return res.status(500).json({ error: 'Failed to insert self as group member' });
+      return res
+        .status(500)
+        .json({ error: 'Failed to insert self as group member' });
     }
     res
       .status(201)
@@ -54,7 +56,8 @@ export async function createGroup(req, res) {
  */
 export async function deleteGroup(req, res) {
   const group_id = req.query.group_id;
-  if (!group_id) return res.status(400).json({ error: 'Missing required fields' });
+  if (!group_id)
+    return res.status(400).json({ error: 'Missing required fields' });
   try {
     const { data, error } = await supabase
       .from('groups')
@@ -85,7 +88,7 @@ export async function deleteGroup(req, res) {
  * @returns {Object} 500 - Server error
  */
 export async function removeUser(req, res) {
-  const {group_id, user_id} = req.query;
+  const { group_id, user_id } = req.query;
   if (!group_id || !user_id)
     return res.status(400).json({ error: 'Missing required fields' });
   try {
@@ -95,7 +98,10 @@ export async function removeUser(req, res) {
       .eq('group_id', group_id)
       .eq('user_id', user_id)
       .select();
-    if (error) return res.status(500).json({ error: 'Failed to remove user from group' });
+    if (error)
+      return res
+        .status(500)
+        .json({ error: 'Failed to remove user from group' });
     if (!data || data.length === 0)
       return res.status(404).json({ message: 'Failed to find group member' });
     return res.status(204).json({ message: 'Member removed successfully' });
@@ -127,7 +133,8 @@ export async function declineInvite(req, res) {
     .eq('group_id', group_id)
     .eq('user_id', user_id)
     .select();
-  if (invite_error) return res.status(500).json({ error: 'Failed to find invite' });
+  if (invite_error)
+    return res.status(500).json({ error: 'Failed to find invite' });
   if (invite.length === 0)
     return res.status(404).json({ error: 'Failed to find invite' });
   const { data, error } = await supabase
