@@ -1,3 +1,5 @@
+import { Group } from '@/types';
+
 export type CreateGroupRequest = {
   group_name: string;
 };
@@ -6,11 +8,6 @@ export type CreateGroupResponse = {
   success: boolean;
   groupId?: string;
   message?: string;
-};
-
-export type Group = {
-  id: string;
-  name: string;
 };
 
 export type GetGroupsRequest = {
@@ -43,7 +40,7 @@ export async function createGroup(
   return response.json();
 }
 
-export async function fetchGroups(token: string): Promise<GetGroupsResponse> {
+export async function fetchGroups(token: string): Promise<{ groups: Group[] }> {
   if (!token) throw new Error('User not authenticated (fetchGroups)');
   console.log('Fetching groups with token:', token);
   const response = await fetch('http://localhost:5000/groups/get_groups', {
@@ -58,6 +55,7 @@ export async function fetchGroups(token: string): Promise<GetGroupsResponse> {
     console.log('Response Error:', errorText);
     throw new Error(`Failed to fetch groups: ${errorText}`);
   }
-
-  return response.json();
+  const data: Group[] = await response.json();
+  console.log('Fetched Response:', data);
+  return { groups: data };
 }

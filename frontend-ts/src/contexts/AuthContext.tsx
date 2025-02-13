@@ -7,7 +7,9 @@ import {
 } from 'react';
 import { supabase } from '../../supabaseClient';
 import { Session, User } from '@supabase/supabase-js';
-
+import { fetchGroupsThunk } from '@/features/groups/groupSlice';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '@/app/store';
 interface AuthContextType {
   user: User | null;
   loading: boolean;
@@ -22,11 +24,14 @@ interface AuthProviderProps {
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-
+  const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
     const checkUser = async () => {
       const { data } = await supabase.auth.getUser();
       setUser(data?.user || null);
+      if (data?.user) {
+        dispatch(fetchGroupsThunk());
+      }
       setLoading(false);
     };
     checkUser();
@@ -51,6 +56,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 };
 
 export const useAuth = (): AuthContextType => {
+  const dispatch = useDispatch();
   const context = useContext(AuthContext);
   if (!context) {
     throw new Error('useAuth must be used within an AuthProvider');

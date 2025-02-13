@@ -1,5 +1,6 @@
-import { SVGProps } from "react";
-
-export type IconSvgProps = SVGProps<SVGSVGElement> & {
-  size?: number;
+export type Group = {
+  id: bigint;
+  group_name: string;
+  created_at: string;
+  created_by: string;
 };

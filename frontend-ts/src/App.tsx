@@ -4,6 +4,7 @@ import IndexPage from '@/pages/index';
 import SignupPage from '@/pages/signupPage';
 import LoginPage from '@/pages/loginPage';
 import { AuthProvider } from '@/contexts/AuthContext';
+
 function App() {
   return (
     <AuthProvider>
