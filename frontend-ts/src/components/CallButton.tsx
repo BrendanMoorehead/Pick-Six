@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 type CallButtonProps<TRequest, TResponse> = {
-  apiCall: (data: TRequest, token: string) => Promise<TResponse>;
+  apiCall: (data: TRequest | undefined, token: string) => Promise<TResponse>;
   buttonText: string;
   requestData?: TRequest;
   getToken: () => Promise<string>; // Function to get the token dynamically
@@ -25,13 +25,17 @@ const CallButton = <TRequest, TResponse>({
     setError(null);
 
     try {
-      const token = await getToken(); // Get the latest auth token
-      if (!token) throw new Error('User not authenticated');
+      const token = await getToken();
+      console.log('✅ Token received in CallButton:', token); // Debugging
 
-      const response = await apiCall(requestData as TRequest, token);
+      if (!token) throw new Error('User not authenticated in CallButton');
+
+      // ✅ Ensure token is passed as a direct argument
+      const response = await apiCall(requestData, token);
       onSuccess?.(response);
     } catch (err) {
-      setError('An error occurred');
+      console.error('❌ CallButton Error:', err);
+      setError(err instanceof Error ? err.message : 'Unknown error occurred');
       onError?.(err as Error);
     } finally {
       setLoading(false);

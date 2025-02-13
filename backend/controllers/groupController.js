@@ -207,8 +207,9 @@ export async function getInvites(req, res) {
 }
 
 export async function getGroups(req, res) {
-  const user_id = req.query.user_id;
-  if (!user_id) return res.status(400).json({ error: 'User id is required' });
+  const user_id = req.user?.id;
+  if (!user_id)
+    return res.status(401).json({ error: 'Unauthorized: No user ID found' });
   try {
     const { data, error } = await supabase
       .from('group_members')

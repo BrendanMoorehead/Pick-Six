@@ -11,9 +11,10 @@ export async function authenticateUser(req, res, next) {
   // console.log('Received Token:', token); // Log the token for debugging
 
   try {
-    const { data: user, error } = await supabase.auth.getUser(token);
+    const { data, error } = await supabase.auth.getUser(token);
+    const user = data?.user;
 
-    if (error) {
+    if (error || !user) {
       // console.error('Supabase Error:', error.message); // Log Supabase error
       return res.status(401).json({ error: 'Invalid or expired token' });
     }
@@ -26,6 +27,7 @@ export async function authenticateUser(req, res, next) {
     // console.log('Authenticated User:', user); // Log the authenticated user
 
     req.user = user; // Attach user to the request
+    console.log('Authenticated user: ', user);
     next();
   } catch (err) {
     // console.error('Error verifying token:', err); // Log unexpected errors
