@@ -5,5 +5,9 @@ export default function LogoutButton() {
   const handlePress = () => {
     supabase.auth.signOut();
   };
-  return <Button onPress={handlePress}>Logout</Button>;
+  return (
+    <Button variant="ghost" onPress={handlePress}>
+      Logout
+    </Button>
+  );
 }

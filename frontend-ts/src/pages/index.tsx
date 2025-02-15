@@ -4,7 +4,7 @@ import CallButton from '@/components/CallButton';
 import { supabase } from '../../supabaseClient';
 import { createGroup, fetchGroups } from '../../api/groups';
 import { getToken } from '../../services/auth';
-import Sidebar from '@/components/Sidebar.tsx';
+import Sidebar from '@/components/SidebarList';
 export default function IndexPage() {
   // const getToken = async () => {
   //   const { data: session } = await supabase.auth.getSession();
@@ -31,7 +31,6 @@ export default function IndexPage() {
           onSuccess={(response) => console.log(response)}
           onError={(error) => console.error('Error getting groups', error)}
         />
-        <Sidebar />
       </div>
     </DefaultLayout>
   );
