@@ -3,6 +3,7 @@ import { Team } from '@/types';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '@/app/store';
 import { getToken } from '../../../services/auth';
+import {fetchTeams}
 export interface TeamState {
   teams: Team[];
   loading: boolean;

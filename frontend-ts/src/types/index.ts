@@ -5,7 +5,7 @@ export type Group = {
   created_by: string;
 };
 
-export interface Team {
+export type Team = {
   id: number;
   team_id: number;
   name: string;
@@ -14,4 +14,4 @@ export interface Team {
   primary_color: string;
   secondary_color: string;
   tertiary_color?: string;
-}
+};

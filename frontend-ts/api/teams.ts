@@ -1,5 +1,3 @@
-import { Team } from '@/types';
-
 export async function fetchTeams(token: string): Promise<{ teams: Team[] }> {
   if (!token) throw new Error('User not authenticated (fetchTeams)');
   console.log('Fetching teams with token:', token);
@@ -9,4 +7,12 @@ export async function fetchTeams(token: string): Promise<{ teams: Team[] }> {
       Authorization: `Bearer ${token}`,
     },
   });
+  if (!response.ok) {
+    const errorText = await response.text();
+    console.log('Response Error:', errorText);
+    throw new Error(`Failed to fetch teams: ${errorText}`);
+  }
+  const data: Team[] = await response.json();
+  console.log('Fetched Response:', data);
+  return { teams: data };
 }
