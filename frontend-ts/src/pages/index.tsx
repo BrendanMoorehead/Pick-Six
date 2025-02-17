@@ -5,6 +5,8 @@ import { supabase } from '../../supabaseClient';
 import { createGroup, fetchGroups } from '../../api/groups';
 import { getToken } from '../../services/auth';
 import Sidebar from '@/components/SidebarList';
+import PickRateCard from '@/components/PickRateCard';
+import GroupPage from './groupPage';
 export default function IndexPage() {
   // const getToken = async () => {
   //   const { data: session } = await supabase.auth.getSession();
@@ -12,8 +14,8 @@ export default function IndexPage() {
   // };
   return (
     <DefaultLayout>
-      <div className="w-4xl max-w-md">
-        <LogoutButton />
+      <div className="flex w-full">
+        {/* <LogoutButton />
         <CallButton
           getToken={getToken}
           apiCall={(data, token) =>
@@ -30,7 +32,9 @@ export default function IndexPage() {
           buttonText="Get Groups"
           onSuccess={(response) => console.log(response)}
           onError={(error) => console.error('Error getting groups', error)}
-        />
+        /> */}
+        <GroupPage name="Stratford Picks" />
+        {/* <PickRateCard week={18}></PickRateCard> */}
       </div>
     </DefaultLayout>
   );

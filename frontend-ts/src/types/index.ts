@@ -4,3 +4,14 @@ export type Group = {
   created_at: string;
   created_by: string;
 };
+
+export interface Team {
+  id: number;
+  team_id: number;
+  name: string;
+  conference: string;
+  division: string;
+  primary_color: string;
+  secondary_color: string;
+  tertiary_color?: string;
+}
