@@ -4,6 +4,19 @@ import type { Group } from '@/types';
 import { fetchGroups } from '../../../api/groups';
 import { getToken } from '../../../services/auth';
 import { RootState } from '@/app/store';
+
+export interface GroupState {
+  groups: Group[];
+  loading: boolean;
+  error: string | null;
+}
+
+const initialState: GroupState = {
+  groups: [],
+  loading: false,
+  error: null,
+};
+
 export const fetchGroupsThunk = createAsyncThunk(
   'groups/fetchGroups',
   async (): Promise<Group[]> => {
@@ -17,18 +30,6 @@ export const fetchGroupsThunk = createAsyncThunk(
     }
   }
 );
-
-export interface GroupState {
-  groups: Group[];
-  loading: boolean;
-  error: string | null;
-}
-
-const initialState: GroupState = {
-  groups: [],
-  loading: false,
-  error: null,
-};
 
 export const groupSlice = createSlice({
   name: 'groups',

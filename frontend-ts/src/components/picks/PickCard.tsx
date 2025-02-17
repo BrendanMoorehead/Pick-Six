@@ -1,4 +1,4 @@
-import React from 'react';
+import { hexToRgba } from '@/utility/hextoRgba';
 import { Team } from '@/types';
 interface PickCardProps {
   team: Team;
@@ -7,6 +7,10 @@ interface PickCardProps {
 }
 
 const PickCard = ({ team, changeSelection, selected }: PickCardProps) => {
+  const primaryRGBA = hexToRgba(team.primary_color, 0.5);
+  const secondaryRGBA = hexToRgba(team.secondary_color, 0.5);
+
+  console.log(primaryRGBA, secondaryRGBA);
   const cardClick = () => {
     console.log(`${team.name} clicked`);
     changeSelection(team.team_id);
@@ -14,10 +18,19 @@ const PickCard = ({ team, changeSelection, selected }: PickCardProps) => {
 
   return (
     <div
-      className={`bg-white p-4 rounded-xl flex justify-center cursor-pointer max-w-xs border-2 hover:bg-gray-100 ${selected ? 'border-rams-faded' : 'border-transparent'}`}
-      onClick={() => cardClick()}
+      className={`rounded-xl p-1 `}
+      style={{
+        background: selected
+          ? `linear-gradient(to bottom, ${primaryRGBA}, ${secondaryRGBA})`
+          : 'transparent',
+      }}
     >
-      <p>{team.name}</p>
+      <div
+        className={`bg-white p-4 rounded-xl flex justify-center cursor-pointer max-w-xs hover:bg-gray-100`}
+        onClick={() => cardClick()}
+      >
+        <p>{team.name}</p>
+      </div>
     </div>
   );
 };

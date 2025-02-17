@@ -16,146 +16,192 @@ module.exports = {
         serif: ['DM Serif Display', 'serif'],
       },
       colors: {
-        cardinals: {
+        1: {
+          //Arizona Cardinals
           primary: '#97233F',
           secondary: '#FFFFFF',
           tertiary: '#000000',
         },
-        falcons: {
+        2: {
+          //Atlanta Falcons
           primary: '#000000',
           secondary: '#A71930',
           tertiary: '#A5ACAF',
         },
-        ravens: {
+        3: {
+          //Baltimore Ravens
           primary: '#24135F',
           secondary: '#000000',
           tertiary: '#9A7611',
         },
-        bills: {
+        4: {
+          //Buffalo Bills
           primary: '#00338D',
           secondary: '#C60C30',
           tertiary: '#707271',
         },
-        panthers: {
+        5: {
+          //Carolina Panthers
           primary: '#000000',
           secondary: '#0085CA',
           tertiary: '#BFC0BF',
         },
-        bears: {
+        6: {
+          //Chicago Bears
           primary: '#0B162A',
           secondary: '#E64100',
           tertiary: '#FFFFFF',
         },
-        bengals: {
+        7: {
+          //Cincinnati Bengals
           primary: '#000000',
           secondary: '#FB4F14',
           tertiary: '#FFFFFF',
         },
-        browns: {
+        8: {
+          //Cleveland Browns
           primary: '#311D00',
           secondary: '#FF3300',
           tertiary: '#FFFFFF',
         },
-        cowboys: {
+        9: {
+          //Dallas Cowboys
           primary: '#002244',
           secondary: '#B0B7BC',
           tertiary: '#00338D',
         },
-        broncos: {
+        10: {
+          //Denver Broncos
           primary: '#FC4C02',
           secondary: '#0A2343',
           tertiary: '#FFFFFF',
         },
-        lions: {
+        11: {
+          //Detroit Lions
           primary: '#0076B6',
           secondary: '#B0B7BC',
           tertiary: '#000000',
         },
-        packers: {
+        12: {
+          //Green Bay Packers
           primary: '#203731',
           secondary: '#FFB612',
           tertiary: '#FFFFFF',
         },
-        texans: {
+        13: {
+          //Houston Texans
           primary: '#021018',
           secondary: '#FFB612',
           tertiary: '#FFFFFF',
         },
-        colts: {
+        14: {
+          //Indianapolis Colts
           primary: '#013369',
           secondary: '#FFFFFF',
           tertiary: '#A5ACAF',
         },
-        jaguars: {
+        15: {
+          //Jacksonville Jaguars
           primary: '#006778',
           secondary: '#000000',
           tertiary: '#9F792C',
         },
-        chiefs: {
+        16: {
+          //Kansas City Chiefs
           primary: '#E31837',
           secondary: '#FFB612',
           tertiary: '#FFFFFF',
         },
-        chargers: {
+        29: {
+          //Los Angeles Chargers
           primary: '#0080C6',
           secondary: '#FFC20E',
           tertiary: '#FFFFFF',
         },
-        rams: { primary: '#003594', secondary: '#FFD100', faded: '#407eed' },
-        raiders: { primary: '#C8C7C7', secondary: '#000000' },
-        dolphins: {
+        32: {
+          //Los Angeles Rams
+          primary: '#003594',
+          secondary: '#FFD100',
+          faded: '#407eed',
+        },
+        25: {
+          //Las Vegas Raiders
+          primary: '#C8C7C7',
+          secondary: '#000000',
+        },
+        19: {
+          //Miami Dolphins
           primary: '#008E97',
           secondary: '#FC4C02',
           tertiary: '#FFFFFF',
         },
-        vikings: {
+        20: {
+          //Minnesota Vikings
           primary: '#4F2683',
           secondary: '#FFC62F',
           tertiary: '#FFFFFF',
         },
-        patriots: {
+        21: {
+          //New England Patriots
           primary: '#002244',
           secondary: '#C60C30',
           tertiary: '#B0B7BC',
         },
-        saints: {
+        22: {
+          //New Orleans Saints
           primary: '#D3BC8D',
           secondary: '#000000',
           tertiary: '#FFFFFF',
         },
-        giants: {
+        23: {
+          //New York Giants
           primary: '#0B2265',
           secondary: '#A71930',
           tertiary: '#FFFFFF',
         },
-        jets: { primary: '#115740', secondary: '#FFFFFF', tertiary: '#000000' },
-        eagles: {
+        24: {
+          //New York Jets
+          primary: '#115740',
+          secondary: '#FFFFFF',
+          tertiary: '#000000',
+        },
+        26: {
+          //Philadelphia Eagles
           primary: '#004851',
           secondary: '#A2AAAD',
           tertiary: '#000000',
         },
-        steelers: { primary: '#000000', secondary: '#FFB612' },
-        seahawks: {
+        28: {
+          //Pittsburgh Steelers
+          primary: '#000000',
+          secondary: '#FFB612',
+        },
+        30: {
+          //Seattle Seahawks
           primary: '#002244',
           secondary: '#69BE28',
           tertiary: '#A5ACAF',
         },
-        fortyniners: {
+        31: {
+          //San Francisco 49ers
           primary: '#AA0000',
           secondary: '#B3995D',
           tertiary: '#FFFFFF',
         },
-        buccaneers: {
+        33: {
+          //Tampa Bay Buccaneers
           primary: '#A71930',
           secondary: '#322F2B',
           tertiary: '#DC4405',
         },
-        titans: {
+        34: {
+          //Tennessee Titans
           primary: '#002244',
           secondary: '#4B92DB',
           tertiary: '#C60C30',
         },
-        commanders: {
+        35: {
+          //Washington Commanders
           primary: '#5A1414',
           secondary: '#FFB612',
           tertiary: '#FFFFFF',

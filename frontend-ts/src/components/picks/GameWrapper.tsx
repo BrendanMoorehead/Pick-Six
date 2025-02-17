@@ -12,12 +12,12 @@ const rams: Team = {
 };
 const seahawks: Team = {
   id: 151,
-  team_id: 31,
+  team_id: 30,
   name: 'Seattle Seahawks',
   conference: 'NFC',
   division: 'West',
-  primary_color: '#003594',
-  secondary_color: '#ffd100',
+  primary_color: '#002244',
+  secondary_color: '#69BE28',
 };
 
 const GameWrapper = () => {
