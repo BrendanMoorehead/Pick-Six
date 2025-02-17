@@ -7,8 +7,8 @@ interface PickCardProps {
 }
 
 const PickCard = ({ team, changeSelection, selected }: PickCardProps) => {
-  const primaryRGBA = hexToRgba(team.primary_color, 0.5);
-  const secondaryRGBA = hexToRgba(team.secondary_color, 0.5);
+  const primaryRGBA = hexToRgba(team.primary_color, 1);
+  const secondaryRGBA = hexToRgba(team.secondary_color, 1);
 
   console.log(primaryRGBA, secondaryRGBA);
   const cardClick = () => {
@@ -18,7 +18,7 @@ const PickCard = ({ team, changeSelection, selected }: PickCardProps) => {
 
   return (
     <div
-      className={`rounded-xl p-1 `}
+      className={`rounded-xl p-1`}
       style={{
         background: selected
           ? `linear-gradient(to bottom, ${primaryRGBA}, ${secondaryRGBA})`
@@ -26,7 +26,7 @@ const PickCard = ({ team, changeSelection, selected }: PickCardProps) => {
       }}
     >
       <div
-        className={`bg-white p-4 rounded-xl flex justify-center cursor-pointer max-w-xs hover:bg-gray-100`}
+        className={`bg-white p-4 rounded-xl flex justify-center cursor-pointer hover:bg-gray-100`}
         onClick={() => cardClick()}
       >
         <p>{team.name}</p>

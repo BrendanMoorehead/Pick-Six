@@ -11,11 +11,20 @@ import { Radio, RadioGroup } from '@heroui/radio';
 import PickCard from '@/components/picks/PickCard';
 import { Team } from '@/types';
 import GameWrapper from '@/components/picks/GameWrapper';
+import { useSelector } from 'react-redux';
+import { selectTeams } from '@/features/teams/teamsSlice';
 interface GroupPageProps {
   name: string;
 }
 
 const GroupPage = (props: GroupPageProps) => {
+  const teams = useSelector(selectTeams);
+
+  const groupedTeams: Team[][] = [];
+
+  for (let i = 0; i < teams.length; i += 2) {
+    groupedTeams.push(teams.slice(i, i + 2));
+  }
   const gamesArr = [];
   for (let i = 0; i < 16; i++) {
     gamesArr.push({ team1: 'test1', team2: 'test2' });
@@ -32,20 +41,6 @@ const GroupPage = (props: GroupPageProps) => {
       <div className="grid grid-cols-3 h-full">
         <div>
           <PickRateCard week={12} />
-          <RadioGroup orientation="horizontal">
-            <TeamRadioButton
-              description="Las Vegas Raiders"
-              value="1"
-              teamColor="red-500"
-            />
-            <p className="self-center">vs.</p>
-            <TeamRadioButton
-              description="Baltimore Ravens"
-              value="2"
-              teamColor="primary"
-            />
-          </RadioGroup>
-          <GameWrapper />
         </div>
         <div className="flex flex-col items-center col-span-2 border-1 bg-white border-black gap-2">
           <h4 className="font-serif text-2xl font-bold">WEEKS</h4>
@@ -55,14 +50,9 @@ const GroupPage = (props: GroupPageProps) => {
             <Tab title="Leaderboard"></Tab>
           </Tabs>
           <ScrollShadow hideScrollBar className="h-[560px]">
-            {/* {gamesArr.map((game) => {
-              return (
-                <div className="flex gap-12">
-                  <div className="h-24 w-50 bg-red-500">{game.team1}</div>
-                  <div className="h-24 w-50 bg-red-500">{game.team2}</div>
-                </div>
-              );
-            })} */}
+            {groupedTeams.map((pair, index) => (
+              <GameWrapper key={index} teams={pair} />
+            ))}
           </ScrollShadow>
         </div>
       </div>
