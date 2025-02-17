@@ -28,13 +28,13 @@ const GameWrapper = ({ teams }: { teams: Team[] }) => {
   };
 
   return (
-    <div className="flex gap-4 items-center">
+    <div className="flex gap-12 items-center justify-center w-full p-2 px-36">
       <PickCard
         changeSelection={changeSelection}
         selected={selectedTeam === teams[0].team_id ? true : false}
         team={teams[0]}
       />
-      <p>vs.</p>
+      <p className="font-serif  text-xl">vs.</p>
       <PickCard
         changeSelection={changeSelection}
         team={teams[1]}

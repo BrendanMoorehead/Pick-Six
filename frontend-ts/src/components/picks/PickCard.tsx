@@ -18,7 +18,7 @@ const PickCard = ({ team, changeSelection, selected }: PickCardProps) => {
 
   return (
     <div
-      className={`rounded-xl p-1`}
+      className="flex-1 rounded-xl p-2"
       style={{
         background: selected
           ? `linear-gradient(to bottom, ${primaryRGBA}, ${secondaryRGBA})`
@@ -26,10 +26,10 @@ const PickCard = ({ team, changeSelection, selected }: PickCardProps) => {
       }}
     >
       <div
-        className={`bg-white p-4 rounded-xl flex justify-center cursor-pointer hover:bg-gray-100`}
+        className={`bg-white p-4 py-8 rounded-xl flex justify-center cursor-pointer hover:bg-gray-100`}
         onClick={() => cardClick()}
       >
-        <p>{team.name}</p>
+        <p className="font-bold select-none">{team.name}</p>
       </div>
     </div>
   );

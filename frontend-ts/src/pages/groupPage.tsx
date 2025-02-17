@@ -45,14 +45,24 @@ const GroupPage = (props: GroupPageProps) => {
         <div className="flex flex-col items-center col-span-2 border-1 bg-white border-black gap-2">
           <h4 className="font-serif text-2xl font-bold">WEEKS</h4>
           <Pagination isCompact showControls initialPage={1} total={18} />
-          <Tabs>
-            <Tab title="Picks"></Tab>
-            <Tab title="Leaderboard"></Tab>
-          </Tabs>
-          <ScrollShadow hideScrollBar className="h-[560px]">
-            {groupedTeams.map((pair, index) => (
-              <GameWrapper key={index} teams={pair} />
-            ))}
+          <div className="flex items-center gap-4">
+            <p className="rounded-xl bg-gray-100 p-3 text-gray-500 text-xs">
+              0/16 Picks saved
+            </p>
+            <Tabs>
+              <Tab title="Picks"></Tab>
+              <Tab title="Leaderboard"></Tab>
+            </Tabs>
+          </div>
+          <ScrollShadow
+            hideScrollBar
+            className="h-[560px] w-full p-6 bg-gray-200"
+          >
+            <div className="flex flex-col content-center ">
+              {groupedTeams.map((pair, index) => (
+                <GameWrapper key={index} teams={pair} />
+              ))}
+            </div>
           </ScrollShadow>
         </div>
       </div>
