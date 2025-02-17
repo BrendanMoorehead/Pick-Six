@@ -1,3 +1,4 @@
+import { Team } from '../src/types/index';
 export async function fetchTeams(token: string): Promise<{ teams: Team[] }> {
   if (!token) throw new Error('User not authenticated (fetchTeams)');
   console.log('Fetching teams with token:', token);

@@ -8,6 +8,7 @@ import {
 import { supabase } from '../../supabaseClient';
 import { Session, User } from '@supabase/supabase-js';
 import { fetchGroupsThunk } from '@/features/groups/groupSlice';
+import { fetchTeamsThunk } from '@/features/teams/teamsSlice';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '@/app/store';
 interface AuthContextType {
@@ -31,6 +32,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       setUser(data?.user || null);
       if (data?.user) {
         dispatch(fetchGroupsThunk());
+        dispatch(fetchTeamsThunk());
       }
       setLoading(false);
     };
