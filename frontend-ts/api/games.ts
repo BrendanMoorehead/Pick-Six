@@ -6,14 +6,21 @@ export type GetGamesResponse = {
   message?: string;
 };
 
-export async function fetchGames(token: string): Promise<{ games: Game[] }> {
+export async function fetchGames(
+  token: string,
+  season: number
+): Promise<{ games: Game[] }> {
   if (!token) throw new Error('User not authenticated (fetchGames)');
-  const response = await fetch('http://localhost:5000/games/get', {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  if (!season) throw new Error('Season parameter is required (fetchGames)');
+  const response = await fetch(
+    `http://localhost:5000/games/get?season=${season}`,
+    {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
   if (!response.ok) {
     const errorText = await response.text();
     console.log('Response Error: ', errorText);
