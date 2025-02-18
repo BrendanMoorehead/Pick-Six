@@ -3,7 +3,7 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import type { Game } from '@/types';
 import { getToken } from '../../../services/auth';
 import { RootState } from '@/app/store';
-
+import { fetchGames } from '../../../api/games';
 export interface GameState {
   games: Game[];
   loading: boolean;
@@ -21,7 +21,7 @@ export const fetchGamesThunk = createAsyncThunk(
   async (): Promise<Game[]> => {
     try {
       const token = await getToken();
-      const response = await fetchGames(token);
+      const response = await fetchGames(token, 2024);
       return response.games as Game[];
     } catch (error) {
       console.error(error);
