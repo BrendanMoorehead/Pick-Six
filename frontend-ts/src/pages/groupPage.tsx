@@ -13,6 +13,7 @@ import { Team } from '@/types';
 import GameWrapper from '@/components/picks/GameWrapper';
 import { useSelector } from 'react-redux';
 import { selectTeams } from '@/features/teams/teamsSlice';
+import PickWeekWrapper from '@/components/picks/PickWeekWrapper';
 interface GroupPageProps {
   name: string;
 }
@@ -41,6 +42,7 @@ const GroupPage = (props: GroupPageProps) => {
       <div className="grid grid-cols-3 h-full">
         <div>
           <PickRateCard week={12} />
+          <PickWeekWrapper />
         </div>
         <div className="flex flex-col items-center col-span-2 border-1 bg-white border-black gap-2">
           <h4 className="font-serif text-2xl font-bold">WEEKS</h4>
