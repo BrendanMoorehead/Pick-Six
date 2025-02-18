@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import groupSlice from '@/features/groups/groupSlice';
 import teamSlice from '@/features/teams/teamsSlice';
+import gameSlice from '@/features/games/gameSlice';
 
 export const store = configureStore({
   reducer: {
     groups: groupSlice,
     teams: teamSlice,
+    games: gameSlice,
   },
 });
 
