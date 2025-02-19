@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { selectTeams } from '@/features/teams/teamsSlice';
 import { selectGames } from '@/features/games/gameSlice';
-import { selectPicks } from '@/features/picks/pickSlice';
+import { picksLoading, selectPicks } from '@/features/picks/pickSlice';
 import { Game, Team } from '@/types';
 import GameWrapper from './GameWrapper';
 import { useParams } from 'react-router-dom';
@@ -21,6 +21,7 @@ const PickWeekWrapper = () => {
   const teams = useSelector(selectTeams);
   const games = useSelector(selectGames);
   const picks = useSelector(selectPicks);
+  const isPicksLoading = useSelector(picksLoading);
   const [selectedWeek, setSelectedWeek] = useState<number>(1);
   //Get the group id for uploading picks.
   const { id } = useParams();
@@ -79,6 +80,14 @@ const PickWeekWrapper = () => {
   }
 
   const gamesByWeek = organizeGamesByWeek(games);
+
+  const pickCount = picks.filter((pick) => {
+    return gamesByWeek[selectedWeek].some(
+      (game) => game.game_id === pick.game_id
+    );
+  }).length;
+
+  const gameCount = gamesByWeek[selectedWeek].length;
   return (
     <div>
       <Pagination
@@ -88,6 +97,11 @@ const PickWeekWrapper = () => {
         initialPage={1}
         total={18}
       />
+      {isPicksLoading ? (
+        <p>saving...</p>
+      ) : (
+        <p>{pickCount + `/` + gameCount + ` picks saved`}</p>
+      )}
       <p>{`Week ${selectedWeek}`}</p>
       {gamesByWeek[selectedWeek]?.map((game) => {
         const pickForGame = filteredPicks.find(

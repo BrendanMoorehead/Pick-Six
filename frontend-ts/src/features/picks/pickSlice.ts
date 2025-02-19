@@ -113,6 +113,7 @@ export const pickSlice = createSlice({
 });
 
 export const selectPicks = (state: RootState) => state.picks.picks;
+export const picksLoading = (state: RootState) => state.picks.loading;
 export const { setPicks, resetPicks, addPick } = pickSlice.actions;
 
 export default pickSlice.reducer;
