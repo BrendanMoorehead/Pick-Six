@@ -11,7 +11,7 @@ import { selectPicks } from '@/features/picks/pickSlice';
 import { Game, Team } from '@/types';
 import GameWrapper from './GameWrapper';
 import { useParams } from 'react-router-dom';
-
+import { useEffect, useMemo } from 'react';
 type GamesByWeekArray = Record<
   number,
   (Game & { home_team: Team; away_team: Team })[]
@@ -24,6 +24,15 @@ const PickWeekWrapper = () => {
   const [selectedWeek, setSelectedWeek] = useState<number>(1);
   //Get the group id for uploading picks.
   const { id } = useParams();
+  useEffect(() => {
+    // You might want to fetch new picks or perform other actions here
+    console.log(`Group ID changed: ${Number(id)}`);
+    // Example: dispatch(fetchPicksForGroup(Number(id)));
+  }, [id]);
+  const filteredPicks = useMemo(() => {
+    return picks.filter((pick) => pick.group_id === Number(id));
+  }, [picks, id]);
+  console.log(id);
   //Games are passed to the PickWeekWrapper and the GameWrapper is populated from here.
   //User picks need to be fetched to populate too
   //Picks are uploaded on change from here, saved icon should be shown, potentially run a timer to group populate, timer resets on click
@@ -81,12 +90,17 @@ const PickWeekWrapper = () => {
       />
       <p>{`Week ${selectedWeek}`}</p>
       {gamesByWeek[selectedWeek]?.map((game) => {
+        const pickForGame = filteredPicks.find(
+          (pick) =>
+            pick.game_id === game.game_id && pick.group_id === Number(id)
+        );
         return (
           <GameWrapper
             key={game.game_id}
             teams={[game.home_team, game.away_team]}
-            pick={picks.find((pick) => pick.game_id === game.game_id)}
+            pick={pickForGame}
             game={game}
+            group_id={Number(id)}
           />
         );
       })}

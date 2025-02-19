@@ -8,10 +8,12 @@ const GameWrapper = ({
   teams,
   pick,
   game,
+  group_id,
 }: {
   teams: Team[];
   pick: Pick;
   game: Game;
+  group_id: number;
 }) => {
   const [selectedTeam, setSelectedTeam] = useState<number | null>(pick?.pick);
   const dispatch = useDispatch();
