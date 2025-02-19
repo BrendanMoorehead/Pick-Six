@@ -27,3 +27,9 @@ export type Game = {
   status: string;
   game_id: number;
 };
+
+export type Pick = {
+  game_id: number;
+  group_id: number;
+  pick: number;
+};

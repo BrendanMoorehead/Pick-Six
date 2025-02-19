@@ -1,1 +1,1 @@
-export async function makePick();
+export async function makePicks();
