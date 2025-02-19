@@ -9,6 +9,7 @@ import { selectTeams } from '@/features/teams/teamsSlice';
 import { selectGames } from '@/features/games/gameSlice';
 import { Game, Team } from '@/types';
 import GameWrapper from './GameWrapper';
+import { useParams } from 'react-router-dom';
 
 type GamesByWeekArray = Record<
   number,
@@ -19,11 +20,17 @@ const PickWeekWrapper = () => {
   const teams = useSelector(selectTeams);
   const games = useSelector(selectGames);
   const [selectedWeek, setSelectedWeek] = useState<number>(1);
+  //Get the group id for uploading picks.
+  const { id } = useParams();
   //Games are passed to the PickWeekWrapper and the GameWrapper is populated from here.
   //User picks need to be fetched to populate too
   //Picks are uploaded on change from here, saved icon should be shown, potentially run a timer to group populate, timer resets on click
   const handlePageChange = (week: number) => {
     setSelectedWeek(week);
+  };
+
+  const savePick = () => {
+    //Pick: made_by, pick (team id), group_id
   };
 
   function organizeGamesByWeek(games: Game[]): GamesByWeekArray {

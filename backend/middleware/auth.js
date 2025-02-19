@@ -27,7 +27,7 @@ export async function authenticateUser(req, res, next) {
     // console.log('Authenticated User:', user); // Log the authenticated user
 
     req.user = user; // Attach user to the request
-    console.log('Authenticated user: ', user);
+    // console.log('Authenticated user: ', user);
     next();
   } catch (err) {
     // console.error('Error verifying token:', err); // Log unexpected errors

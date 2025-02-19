@@ -39,6 +39,37 @@ export async function makePick(req, res) {
   }
 }
 
+export async function batchPicks(req, res) {
+  const { picks } = req.body;
+
+  if (!picks || !Array.isArray(picks))
+    return res.status(400).json({ error: 'Invalid data format' });
+
+  console.log(picks);
+  const updatedPicks = picks.map((pick) => {
+    return {
+      made_by: pick.user_id,
+      game_id: pick.game_id,
+      pick: pick.pick,
+      group_id: pick.group_id,
+      status: 'active',
+    };
+  });
+  console.log('Updated Picks:', JSON.stringify(updatedPicks, null, 2));
+  try {
+    const { data, error } = await supabase
+      .from('user_picks')
+      .upsert(updatedPicks, { onConflict: ['game_id', 'group_id', 'made_by'] })
+      .select();
+
+    console.log(data);
+    if (error) throw error;
+    return res.status(201).json(data);
+  } catch (error) {
+    return res.status(500).json({ error: error });
+  }
+}
+
 /**
  * @route GET /picks/group_picks
  * @desc Get all picks for a group
