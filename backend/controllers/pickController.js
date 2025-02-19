@@ -88,10 +88,12 @@ export async function getGroupPicks(req, res) {
     const { data, error } = await supabase.rpc('get_user_picks_for_group', {
       group_param: group_id,
     });
-    if (error)
+    if (error) {
+      console.log(error);
       return res
         .status(500)
         .json({ error: `Failed to get picks for group ${group_id}` });
+    }
     res.status(200).json(data);
   } catch (error) {
     console.error('Server Error', error);

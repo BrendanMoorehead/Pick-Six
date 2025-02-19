@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import PickCard from './PickCard';
-import { Team } from '@/types';
+import { Team, Pick } from '@/types';
+
 // const rams: Team = {
 //   id: 151,
 //   team_id: 32,
@@ -20,8 +21,8 @@ import { Team } from '@/types';
 //   secondary_color: '#69BE28',
 // };
 
-const GameWrapper = ({ teams }: { teams: Team[] }) => {
-  const [selectedTeam, setSelectedTeam] = useState<number | null>(null);
+const GameWrapper = ({ teams, pick }: { teams: Team[]; pick: Pick }) => {
+  const [selectedTeam, setSelectedTeam] = useState<number | null>(pick?.pick);
 
   const changeSelection = (id: number) => {
     setSelectedTeam(id);

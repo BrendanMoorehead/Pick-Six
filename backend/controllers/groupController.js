@@ -216,10 +216,12 @@ export async function getGroups(req, res) {
       .from('group_members')
       .select('group_id')
       .eq('user_id', user_id);
-    if (error)
+    if (error) {
+      console.error(error);
       return res
         .status(400)
         .json({ error: 'Failed to get group ids for member' });
+    }
     const group_ids = data.map((group) => group.group_id);
     const { data: groups, error: groups_error } = await supabase
       .from('groups')

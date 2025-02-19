@@ -10,6 +10,7 @@ import { Session, User } from '@supabase/supabase-js';
 import { fetchGroupsThunk } from '@/features/groups/groupSlice';
 import { fetchTeamsThunk } from '@/features/teams/teamsSlice';
 import { fetchGamesThunk } from '@/features/games/gameSlice';
+import { fetchPicksThunk } from '@/features/picks/pickSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '@/app/store';
 import { RootState } from '@/app/store';
@@ -32,7 +33,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const games = useSelector((state: RootState) => state.games.games);
   const groups = useSelector((state: RootState) => state.groups.groups);
   const teams = useSelector((state: RootState) => state.teams.teams);
-
+  const picks = useSelector((state: RootState) => state.picks.picks);
   useEffect(() => {
     let isMounted = true;
     const checkUser = async () => {
@@ -63,8 +64,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       if (groups.length === 0) dispatch(fetchGroupsThunk());
       if (teams.length === 0) dispatch(fetchTeamsThunk());
       if (games.length === 0) dispatch(fetchGamesThunk());
+      if (picks.length === 0) dispatch(fetchPicksThunk(24));
     }
-  }, [user, dispatch, games.length, groups.length, teams.length]);
+  }, [user, dispatch, games.length, groups.length, teams.length, picks.length]);
 
   return (
     <AuthContext.Provider value={{ user, loading }}>

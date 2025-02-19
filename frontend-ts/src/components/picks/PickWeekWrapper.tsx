@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { selectTeams } from '@/features/teams/teamsSlice';
 import { selectGames } from '@/features/games/gameSlice';
+import { selectPicks } from '@/features/picks/pickSlice';
 import { Game, Team } from '@/types';
 import GameWrapper from './GameWrapper';
 import { useParams } from 'react-router-dom';
@@ -19,6 +20,7 @@ type GamesByWeekArray = Record<
 const PickWeekWrapper = () => {
   const teams = useSelector(selectTeams);
   const games = useSelector(selectGames);
+  const picks = useSelector(selectPicks);
   const [selectedWeek, setSelectedWeek] = useState<number>(1);
   //Get the group id for uploading picks.
   const { id } = useParams();
@@ -83,6 +85,7 @@ const PickWeekWrapper = () => {
           <GameWrapper
             key={game.game_id}
             teams={[game.home_team, game.away_team]}
+            pick={picks.find((pick) => pick.game_id === game.game_id)}
           />
         );
       })}
