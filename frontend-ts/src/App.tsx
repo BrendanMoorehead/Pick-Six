@@ -15,7 +15,7 @@ function App() {
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<DefaultLayout />}>
             <Route element={<IndexPage />} path="/" />
-            <Route path="groups/:id" element={<GroupPage name={'Test'} />} />
+            <Route path="groups/:id" element={<GroupPage />} />
           </Route>
         </Route>
         <Route path="*" element={<p>404 - Page Not Found</p>} />

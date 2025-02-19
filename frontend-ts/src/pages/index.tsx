@@ -12,27 +12,5 @@ export default function IndexPage() {
   //   const { data: session } = await supabase.auth.getSession();
   //   return session?.session?.access_token || '';
   // };
-  return (
-    // <div className="flex w-full">
-    /* <LogoutButton />
-        <CallButton
-          getToken={getToken}
-          apiCall={(data, token) =>
-            createGroup({ group_name: 'Test Group 2' }, token)
-          }
-          buttonText="Create Group"
-          requestData={{ group_name: 'Test Group 2' }}
-          onSuccess={(response) => console.log(response)}
-          onError={(error) => console.error('Error creating group', error)}
-        />
-        <CallButton
-          getToken={getToken}
-          apiCall={(data, token) => fetchGroups(token)}
-          buttonText="Get Groups"
-          onSuccess={(response) => console.log(response)}
-          onError={(error) => console.error('Error getting groups', error)}
-        /> */
-    <GroupPage />
-    // </div>
-  );
+  return <p>Home</p>;
 }
