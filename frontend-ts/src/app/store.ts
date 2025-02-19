@@ -2,19 +2,21 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import groupSlice from '@/features/groups/groupSlice';
 import teamSlice from '@/features/teams/teamsSlice';
 import gameSlice from '@/features/games/gameSlice';
+import { pickSlice } from '@/features/picks/pickSlice';
 import storage from 'redux-persist/lib/storage'; // Defaults to localStorage for web
 import { persistReducer, persistStore } from 'redux-persist';
 
 const persistConfig = {
   key: 'root',
   storage, // Uses localStorage
-  whitelist: ['games', 'teams', 'groups'], // Specify which reducers to persist
+  whitelist: ['games', 'teams', 'groups', 'picks'], // Specify which reducers to persist
 };
 
 const rootReducer = combineReducers({
   groups: groupSlice,
   teams: teamSlice,
   games: gameSlice,
+  picks: pickSlice,
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
