@@ -35,6 +35,7 @@ export const groupSlice = createSlice({
   name: 'groups',
   initialState,
   reducers: {
+    resetGroups: () => initialState,
     setGroups: (state, action: PayloadAction<Group[]>) => {
       state.groups = action.payload;
     },

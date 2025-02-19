@@ -34,6 +34,7 @@ export const gameSlice = createSlice({
   name: 'games',
   initialState,
   reducers: {
+    resetGames: () => initialState,
     setGames: (state, action: PayloadAction<Game[]>) => {
       state.games = action.payload;
     },

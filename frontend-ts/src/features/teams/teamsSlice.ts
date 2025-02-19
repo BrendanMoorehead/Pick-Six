@@ -34,6 +34,7 @@ export const teamSlice = createSlice({
   name: 'teams',
   initialState,
   reducers: {
+    resetTeams: () => initialState,
     setTeams: (state, action: PayloadAction<Team[]>) => {
       state.teams = action.payload;
     },
