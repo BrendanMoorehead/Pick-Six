@@ -42,14 +42,14 @@ export async function makePick(req, res) {
 export async function batchPicks(req, res) {
   const { picks } = req.body;
   console.log('Batching picks to DB...');
-  console.log(picks);
+  console.log('Received picks:', JSON.stringify(picks));
   if (!picks || !Array.isArray(picks))
     return res.status(400).json({ error: 'Invalid data format' });
 
   console.log(picks);
   const updatedPicks = picks.map((pick) => {
     return {
-      made_by: pick.user_id,
+      made_by: pick.made_by,
       game_id: pick.game_id,
       pick: pick.pick,
       group_id: pick.group_id,

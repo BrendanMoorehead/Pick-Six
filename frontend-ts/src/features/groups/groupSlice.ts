@@ -21,7 +21,7 @@ export const fetchGroupsThunk = createAsyncThunk(
   'groups/fetchGroups',
   async (): Promise<Group[]> => {
     try {
-      const { token } = await getToken();
+      const token = await getToken();
       const response = await fetchGroups(token);
       return response.groups as Group[];
     } catch (error) {

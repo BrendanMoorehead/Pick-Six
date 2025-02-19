@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import type { Pick } from '@/types';
-import { getToken } from '../../../services/auth';
+import { getToken, getUserId } from '../../../services/auth';
 import { RootState } from '@/app/store';
 import {
   CreatePicksRequest,
@@ -26,7 +26,7 @@ export const fetchPicksThunk = createAsyncThunk(
   'picks/fetchPicks',
   async (group_id: number): Promise<Pick[]> => {
     try {
-      const { token } = await getToken();
+      const token = await getToken();
       const response = await fetchPicks(token, group_id);
       return response.picks as Pick[];
     } catch (error) {
@@ -42,8 +42,17 @@ export const makePicksThunk = createAsyncThunk<
   { rejectValue: CreatePicksResponse } // The error return type
 >('picks/makePicks', async (data, { rejectWithValue }) => {
   try {
-    const { token } = await getToken();
-    const response = await makePicks(data, token);
+    const token = await getToken();
+    const user_id = await getUserId();
+    const data_with_user = {
+      picks: data.picks.map((pick) => {
+        return {
+          ...pick,
+          made_by: user_id,
+        };
+      }),
+    };
+    const response = await makePicks(data_with_user, token);
     console.log(response);
     return response;
   } catch (error) {

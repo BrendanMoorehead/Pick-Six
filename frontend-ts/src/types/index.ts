@@ -34,4 +34,5 @@ export type Pick = {
   pick: number;
   result?: boolean;
   status: string;
+  made_by?: string;
 };

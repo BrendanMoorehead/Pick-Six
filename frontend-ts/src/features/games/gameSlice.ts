@@ -20,7 +20,7 @@ export const fetchGamesThunk = createAsyncThunk(
   'games/fetchGames',
   async (): Promise<Game[]> => {
     try {
-      const { token } = await getToken();
+      const token = await getToken();
       const response = await fetchGames(token, 2024);
       return response.games as Game[];
     } catch (error) {
