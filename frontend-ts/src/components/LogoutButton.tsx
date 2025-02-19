@@ -1,8 +1,18 @@
 import { Button } from '@heroui/button';
-import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '../../supabaseClient';
+import { useDispatch } from 'react-redux';
+import { resetGames } from '@/features/games/gameSlice';
+import { resetTeams } from '@/features/teams/teamsSlice';
+import { resetGroups } from '@/features/groups/groupSlice';
+import { persistor } from '../../src/app/store';
+
 export default function LogoutButton() {
+  const dispatch = useDispatch();
   const handlePress = () => {
+    dispatch(resetGames());
+    dispatch(resetTeams());
+    dispatch(resetGroups());
+    persistor.flush();
     supabase.auth.signOut();
   };
   return (
