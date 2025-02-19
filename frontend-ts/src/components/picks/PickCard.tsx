@@ -17,7 +17,7 @@ const PickCard = ({ team, changeSelection, selected }: PickCardProps) => {
 
   return (
     <div
-      className="flex-1 rounded-xl p-2"
+      className="flex-1 rounded-xl p-2 shadow-lg"
       style={{
         background: selected
           ? `linear-gradient(to bottom, ${primaryRGBA}, ${secondaryRGBA})`

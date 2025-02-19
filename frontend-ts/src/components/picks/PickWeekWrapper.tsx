@@ -12,6 +12,7 @@ import { Game, Team } from '@/types';
 import GameWrapper from './GameWrapper';
 import { useParams } from 'react-router-dom';
 import { useEffect, useMemo } from 'react';
+import { ScrollShadow } from '@heroui/scroll-shadow';
 type GamesByWeekArray = Record<
   number,
   (Game & { home_team: Team; away_team: Team })[]
@@ -103,21 +104,23 @@ const PickWeekWrapper = () => {
         <p>{pickCount + `/` + gameCount + ` picks saved`}</p>
       )}
       <p>{`Week ${selectedWeek}`}</p>
-      {gamesByWeek[selectedWeek]?.map((game) => {
-        const pickForGame = filteredPicks.find(
-          (pick) =>
-            pick.game_id === game.game_id && pick.group_id === Number(id)
-        );
-        return (
-          <GameWrapper
-            key={game.game_id}
-            teams={[game.home_team, game.away_team]}
-            pick={pickForGame}
-            game={game}
-            group_id={Number(id)}
-          />
-        );
-      })}
+      <ScrollShadow hideScrollBar className="h-[560px] w-full p-6">
+        {gamesByWeek[selectedWeek]?.map((game) => {
+          const pickForGame = filteredPicks.find(
+            (pick) =>
+              pick.game_id === game.game_id && pick.group_id === Number(id)
+          );
+          return (
+            <GameWrapper
+              key={game.game_id}
+              teams={[game.home_team, game.away_team]}
+              pick={pickForGame}
+              game={game}
+              group_id={Number(id)}
+            />
+          );
+        })}
+      </ScrollShadow>
     </div>
   );
 };
