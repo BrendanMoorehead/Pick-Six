@@ -27,6 +27,10 @@ const PickWeekWrapper = () => {
   };
 
   function organizeGamesByWeek(games: Game[]): GamesByWeekArray {
+    if (!games || games.length === 0) {
+      console.warn('No games available for organizing');
+      return {};
+    }
     const teamMap = new Map<number, Team>();
     teams.forEach((team) => teamMap.set(team.team_id, team));
     const maxWeek = Math.max(...games.map((game) => game.week));
