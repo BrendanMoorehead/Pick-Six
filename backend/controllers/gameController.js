@@ -10,6 +10,7 @@ import supabase from '../db.js';
  * @returns {Object} 500 - Server error
  */
 export async function getGames(req, res) {
+  console.log('Fetching games: getGames()');
   const season = req.query.season;
   if (!season) return res.status(400).json({ error: 'Missing parameters' });
   try {

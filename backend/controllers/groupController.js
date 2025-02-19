@@ -207,6 +207,7 @@ export async function getInvites(req, res) {
 }
 
 export async function getGroups(req, res) {
+  console.log('Fetching groups: getGroups()');
   const user_id = req.user?.id;
   if (!user_id)
     return res.status(401).json({ error: 'Unauthorized: No user ID found' });
@@ -215,13 +216,11 @@ export async function getGroups(req, res) {
       .from('group_members')
       .select('group_id')
       .eq('user_id', user_id);
-    console.log(data);
     if (error)
       return res
         .status(400)
         .json({ error: 'Failed to get group ids for member' });
     const group_ids = data.map((group) => group.group_id);
-    console.log(group_ids);
     const { data: groups, error: groups_error } = await supabase
       .from('groups')
       .select('*')
@@ -243,8 +242,6 @@ export async function getGroupInfo(req, res) {
     const { data, error } = await supabase.rpc('get_group_with_members', {
       group_id_input: group_id,
     });
-
-    console.log(data);
     res.status(201).json({
       message: 'Group details fetched',
       data: data,
@@ -290,7 +287,6 @@ export async function inviteToGroup(req, res) {
     } else {
       console.log('✅ Matching Invite Count:', count);
     }
-    console.log(existing_invite_error);
     if (count === 1)
       return res
         .status(400)

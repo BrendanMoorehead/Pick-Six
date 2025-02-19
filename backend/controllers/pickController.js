@@ -28,7 +28,6 @@ export async function makePick(req, res) {
         status: 'active',
       })
       .select();
-    console.log(data, error);
     if (error) {
       console.error('Database error');
       return res.status(500).json({ error: 'Error when making pick' });
@@ -58,7 +57,6 @@ export async function getGroupPicks(req, res) {
     const { data, error } = await supabase.rpc('get_user_picks_for_group', {
       group_param: group_id,
     });
-    console.log(data, error);
     if (error)
       return res
         .status(500)

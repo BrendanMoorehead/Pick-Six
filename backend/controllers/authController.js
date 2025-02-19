@@ -33,7 +33,6 @@ export async function registerUser(req, res) {
       return res.status(400).json({ error: 'Username is already registered' });
 
     const { data, error } = await supabase.auth.signUp({ email, password });
-    console.log(data);
     if (error) return res.status(400).json({ error: error.message });
     await supabase
       .from('users')
