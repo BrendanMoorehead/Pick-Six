@@ -13,13 +13,19 @@ import { Team } from '@/types';
 import GameWrapper from '@/components/picks/GameWrapper';
 import { useSelector } from 'react-redux';
 import { selectTeams } from '@/features/teams/teamsSlice';
+import { selectGroups } from '@/features/groups/groupSlice';
 import PickWeekWrapper from '@/components/picks/PickWeekWrapper';
-interface GroupPageProps {
-  name: string;
-}
+import { useParams } from 'react-router-dom';
 
-const GroupPage = (props: GroupPageProps) => {
+const GroupPage = () => {
+  const { id } = useParams();
+  const groups = useSelector(selectGroups);
   const teams = useSelector(selectTeams);
+
+  const group = groups.find((g) => g.id.toString() === id);
+  if (!group) {
+    return <p className="text-center text-red-500">Group not found.</p>;
+  }
 
   const groupedTeams: Team[][] = [];
 
@@ -32,10 +38,10 @@ const GroupPage = (props: GroupPageProps) => {
   }
   //Group Name
   return (
-    <div className="h-full p-8 flex-1 bg-gray-100 flex-col flex gap-8">
+    <div className="w-full h-full p-8 flex-1 bg-gray-100 flex-col flex gap-8">
       <div className="flex-col flex gap-2">
         <h1 className="font-serif text-4xl font-bold">
-          {props.name.toUpperCase()}
+          {group.group_name.toUpperCase()}
         </h1>
         <h2 className="text-xl">{`Week 12`}</h2>
       </div>

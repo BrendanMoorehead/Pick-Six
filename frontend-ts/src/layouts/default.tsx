@@ -3,11 +3,8 @@ import Sidebar from '@/components/SidebarList';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/app/store';
 import { Spinner } from '@heroui/spinner';
-export default function DefaultLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+import { Outlet } from 'react-router-dom';
+export default function DefaultLayout() {
   const gamesloading = useSelector((state: RootState) => state.games.loading);
   const groupsloading = useSelector((state: RootState) => state.groups.loading);
   const teamsloading = useSelector((state: RootState) => state.teams.loading);
@@ -19,7 +16,10 @@ export default function DefaultLayout({
       ) : (
         <div className="h-full flex">
           <Sidebar />
-          {children}
+          {/* {children} */}
+          <div className="flex-grow">
+            <Outlet />
+          </div>
         </div>
       )}
     </div>

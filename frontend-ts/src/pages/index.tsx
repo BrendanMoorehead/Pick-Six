@@ -13,9 +13,8 @@ export default function IndexPage() {
   //   return session?.session?.access_token || '';
   // };
   return (
-    <DefaultLayout>
-      <div className="flex w-full">
-        {/* <LogoutButton />
+    // <div className="flex w-full">
+    /* <LogoutButton />
         <CallButton
           getToken={getToken}
           apiCall={(data, token) =>
@@ -32,10 +31,8 @@ export default function IndexPage() {
           buttonText="Get Groups"
           onSuccess={(response) => console.log(response)}
           onError={(error) => console.error('Error getting groups', error)}
-        /> */}
-        <GroupPage name="Stratford Picks" />
-        {/* <PickRateCard week={18}></PickRateCard> */}
-      </div>
-    </DefaultLayout>
+        /> */
+    <GroupPage />
+    // </div>
   );
 }
