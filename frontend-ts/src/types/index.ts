@@ -32,4 +32,6 @@ export type Pick = {
   game_id: number;
   group_id: number;
   pick: number;
+  result?: boolean;
+  status: string;
 };
