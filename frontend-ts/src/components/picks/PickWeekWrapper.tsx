@@ -8,6 +8,13 @@ import { useSelector } from 'react-redux';
 import { selectTeams } from '@/features/teams/teamsSlice';
 import { selectGames } from '@/features/games/gameSlice';
 import { Game, Team } from '@/types';
+import GameWrapper from './GameWrapper';
+
+type GamesByWeekArray = Record<
+  number,
+  (Game & { home_team: Team; away_team: Team })[]
+>;
+
 const PickWeekWrapper = () => {
   const teams = useSelector(selectTeams);
   const games = useSelector(selectGames);
@@ -19,29 +26,28 @@ const PickWeekWrapper = () => {
     setSelectedWeek(week);
   };
 
-  function organizeGamesByWeek(
-    games: Game[],
-    teams: Team[]
-  ): Record<number, (Game & { home_team: Team; away_team: Team })[]> {
-    const regularSeasonGames = games.filter((game) => game.season_type === 2);
+  function organizeGamesByWeek(games: Game[]): GamesByWeekArray {
     const teamMap = new Map<number, Team>();
-
     teams.forEach((team) => teamMap.set(team.team_id, team));
-    const gamesByWeek: Record<
-      number,
-      (Game & { home_team: Team; away_team: Team })[]
-    > = {};
-    for (const game of regularSeasonGames) {
+    const maxWeek = Math.max(...games.map((game) => game.week));
+    const gamesByWeek: GamesByWeekArray = new Array(maxWeek + 1).fill(
+      undefined
+    );
+    for (const game of games) {
+      // console.log('gameloop', game);
+      if (Number(game.season_type) !== 1) continue;
       const homeTeam = teamMap.get(game.home_team_id);
       const awayTeam = teamMap.get(game.away_team_id);
       if (!homeTeam || !awayTeam) {
         console.warn(`Missing team info for game: ${game.id}`);
         continue;
       }
+
+      // console.log('stype 2');
       if (!gamesByWeek[game.week]) {
         gamesByWeek[game.week] = [];
       }
-      gamesByWeek[game.week].push({
+      gamesByWeek[game.week]?.push({
         ...game,
         home_team: homeTeam,
         away_team: awayTeam,
@@ -50,8 +56,7 @@ const PickWeekWrapper = () => {
     return gamesByWeek;
   }
 
-  const gamesByWeek = organizeGamesByWeek(games, teams);
-  console.log(gamesByWeek[1]);
+  const gamesByWeek = organizeGamesByWeek(games);
   return (
     <div>
       <Pagination
@@ -62,6 +67,14 @@ const PickWeekWrapper = () => {
         total={18}
       />
       <p>{`Week ${selectedWeek}`}</p>
+      {gamesByWeek[selectedWeek]?.map((game) => {
+        return (
+          <GameWrapper
+            key={game.game_id}
+            teams={[game.home_team, game.away_team]}
+          />
+        );
+      })}
     </div>
   );
 };

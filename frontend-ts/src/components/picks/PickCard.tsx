@@ -10,7 +10,6 @@ const PickCard = ({ team, changeSelection, selected }: PickCardProps) => {
   const primaryRGBA = hexToRgba(team.primary_color, 1);
   const secondaryRGBA = hexToRgba(team.secondary_color, 1);
 
-  console.log(primaryRGBA, secondaryRGBA);
   const cardClick = () => {
     console.log(`${team.name} clicked`);
     changeSelection(team.team_id);
