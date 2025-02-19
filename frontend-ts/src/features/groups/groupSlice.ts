@@ -57,6 +57,6 @@ export const groupSlice = createSlice({
 });
 
 export const selectGroups = (state: RootState) => state.groups.groups;
-export const { setGroups } = groupSlice.actions;
+export const { setGroups, resetGroups } = groupSlice.actions;
 
 export default groupSlice.reducer;

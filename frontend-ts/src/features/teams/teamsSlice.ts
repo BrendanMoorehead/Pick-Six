@@ -56,5 +56,5 @@ export const teamSlice = createSlice({
 });
 
 export const selectTeams = (state: RootState) => state.teams.teams;
-export const { setTeams } = teamSlice.actions;
+export const { setTeams, resetTeams } = teamSlice.actions;
 export default teamSlice.reducer;

@@ -56,5 +56,5 @@ export const gameSlice = createSlice({
 });
 
 export const selectGames = (state: RootState) => state.games.games;
-export const { setGames } = gameSlice.actions;
+export const { setGames, resetGames } = gameSlice.actions;
 export default gameSlice.reducer;
