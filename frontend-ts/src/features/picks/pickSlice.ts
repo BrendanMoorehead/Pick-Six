@@ -40,7 +40,14 @@ export const pickSlice = createSlice({
       state.picks = action.payload;
     },
     addPick: (state, action: PayloadAction<Pick>) => {
-      state.picks.push(action.payload);
+      let matchedPickIndex = state.picks.findIndex(
+        (pick) =>
+          pick.game_id === action.payload.game_id &&
+          pick.group_id === action.payload.group_id
+      );
+      if (matchedPickIndex !== -1) {
+        state.picks[matchedPickIndex] = action.payload;
+      } else state.picks.push(action.payload);
     },
   },
   extraReducers: (builder) => {
