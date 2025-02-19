@@ -22,7 +22,7 @@ const GameWrapper = ({
     const pickDetails = {
       game_id: game.game_id,
       pick: id,
-      group_id: 24,
+      group_id: group_id,
       status: 'active',
     };
     dispatch(addPick(pickDetails));
