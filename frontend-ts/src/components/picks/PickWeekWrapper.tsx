@@ -86,6 +86,7 @@ const PickWeekWrapper = () => {
             key={game.game_id}
             teams={[game.home_team, game.away_team]}
             pick={picks.find((pick) => pick.game_id === game.game_id)}
+            game={game}
           />
         );
       })}

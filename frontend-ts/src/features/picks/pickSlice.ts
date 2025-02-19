@@ -39,6 +39,9 @@ export const pickSlice = createSlice({
     setPicks: (state, action: PayloadAction<Pick[]>) => {
       state.picks = action.payload;
     },
+    addPick: (state, action: PayloadAction<Pick>) => {
+      state.picks.push(action.payload);
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchPicksThunk.pending, (state) => {
@@ -57,6 +60,6 @@ export const pickSlice = createSlice({
 });
 
 export const selectPicks = (state: RootState) => state.picks.picks;
-export const { setPicks, resetPicks } = pickSlice.actions;
+export const { setPicks, resetPicks, addPick } = pickSlice.actions;
 
 export default pickSlice.reducer;
