@@ -85,9 +85,10 @@ export async function getGroupPicks(req, res) {
   if (!group_id)
     return res.status(400).json({ error: 'Missing required data' });
   try {
-    const { data, error } = await supabase.rpc('get_user_picks_for_group', {
-      group_param: group_id,
-    });
+    const { data, error } = await supabase
+      .from('user_picks')
+      .select()
+      .eq('group_id', group_id);
     if (error) {
       console.log(error);
       return res
