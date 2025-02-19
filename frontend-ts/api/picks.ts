@@ -26,3 +26,29 @@ export async function makePicks(
   }
   return response.json();
 }
+
+export async function fetchPicks(
+  token: string,
+  group_id: number
+): Promise<{ picks: Pick[] }> {
+  if (!token) throw new Error('User not authenticated (fetchGroups)');
+  console.log('Fetching picks with token:', token);
+  const response = await fetch(
+    `http://localhost:5000/picks/group_picks?group_id=${group_id}`,
+    {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    console.log('Response Error:', errorText);
+    throw new Error(`Failed to fetch groups: ${errorText}`);
+  }
+  const data: Pick[] = await response.json();
+  console.log('Fetched Response:', data);
+  return { picks: data };
+}
