@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import PickCard from './PickCard';
 import { Team, Pick, Game } from '@/types';
-import { addPick } from '@/features/picks/pickSlice';
+import { addPick, makePicksThunk } from '@/features/picks/pickSlice';
 import { useDispatch, UseDispatch } from 'react-redux';
-
+import { CreatePicksRequest } from '../../../api/picks';
+import { AppDispatch } from '@/app/store';
+import { supabase } from '../../../supabaseClient';
 const GameWrapper = ({
   teams,
   pick,
@@ -16,16 +18,35 @@ const GameWrapper = ({
   group_id: number;
 }) => {
   const [selectedTeam, setSelectedTeam] = useState<number | null>(pick?.pick);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
+  const getUserId = async () => {
+    const {
+      data: { user },
+      error,
+    } = await supabase.auth.getUser();
+
+    if (error) {
+      console.error('Error fetching user:', error);
+      return null; // Handle error as appropriate
+    }
+
+    return user?.id; // Return user ID or null if no user is authenticated
+  };
+
   const changeSelection = (id: number, game: Game) => {
     setSelectedTeam(id);
-    const pickDetails = {
+    const pickDetails: Pick = {
       game_id: game.game_id,
       pick: id,
       group_id: group_id,
       status: 'active',
     };
     dispatch(addPick(pickDetails));
+
+    const pickRequest: CreatePicksRequest = {
+      picks: [pickDetails], // Wrap pickDetails in an array to match CreatePicksRequest
+    };
+    dispatch(makePicksThunk(pickRequest));
   };
 
   return (

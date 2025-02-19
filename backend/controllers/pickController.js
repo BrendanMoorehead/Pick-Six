@@ -41,7 +41,8 @@ export async function makePick(req, res) {
 
 export async function batchPicks(req, res) {
   const { picks } = req.body;
-
+  console.log('Batching picks to DB...');
+  console.log(picks);
   if (!picks || !Array.isArray(picks))
     return res.status(400).json({ error: 'Invalid data format' });
 

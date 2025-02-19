@@ -1,9 +1,9 @@
 import { supabase } from '../supabaseClient';
 
 let cachedToken: string | null = null;
-
-export async function getToken(): Promise<string> {
-  if (cachedToken) return cachedToken;
+let cachedId: string | null = null;
+export async function getToken(): Promise<{ token: string; user_id: string }> {
+  if (cachedToken && cachedId) return { token: cachedToken, user_id: cachedId };
 
   const { data, error } = await supabase.auth.getSession();
   if (error || !data.session) {
@@ -12,6 +12,8 @@ export async function getToken(): Promise<string> {
   }
 
   cachedToken = data.session.access_token;
+  cachedId = data.session.user.id;
   console.log('✅ Fetched Token:', cachedToken);
-  return cachedToken;
+  console.log('✅ Fetched UUID:', data.session.user.id);
+  return { token: cachedToken, user_id: cachedId };
 }

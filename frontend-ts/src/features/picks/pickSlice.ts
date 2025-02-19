@@ -3,7 +3,12 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import type { Pick } from '@/types';
 import { getToken } from '../../../services/auth';
 import { RootState } from '@/app/store';
-import { fetchPicks } from '../../../api/picks';
+import {
+  CreatePicksRequest,
+  CreatePicksResponse,
+  fetchPicks,
+  makePicks,
+} from '../../../api/picks';
 
 export interface PickState {
   picks: Pick[];
@@ -21,7 +26,7 @@ export const fetchPicksThunk = createAsyncThunk(
   'picks/fetchPicks',
   async (group_id: number): Promise<Pick[]> => {
     try {
-      const token = await getToken();
+      const { token } = await getToken();
       const response = await fetchPicks(token, group_id);
       return response.picks as Pick[];
     } catch (error) {
@@ -30,6 +35,26 @@ export const fetchPicksThunk = createAsyncThunk(
     }
   }
 );
+
+export const makePicksThunk = createAsyncThunk<
+  CreatePicksResponse, // The success return type
+  CreatePicksRequest, // The input type (data)
+  { rejectValue: CreatePicksResponse } // The error return type
+>('picks/makePicks', async (data, { rejectWithValue }) => {
+  try {
+    const { token } = await getToken();
+    const response = await makePicks(data, token);
+    console.log(response);
+    return response;
+  } catch (error) {
+    console.error(error);
+    return rejectWithValue({
+      success: false,
+      message:
+        error instanceof Error ? error.message : 'Unknown error occurred',
+    });
+  }
+});
 
 export const pickSlice = createSlice({
   name: 'picks',
@@ -62,6 +87,18 @@ export const pickSlice = createSlice({
     builder.addCase(fetchPicksThunk.rejected, (state, action) => {
       state.loading = false;
       state.error = action.error.message || 'Failed to fetch picks';
+    });
+
+    builder.addCase(makePicksThunk.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(makePicksThunk.fulfilled, (state) => {
+      state.loading = false;
+    });
+    builder.addCase(makePicksThunk.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message || 'Failed to make picks';
     });
   },
 });
