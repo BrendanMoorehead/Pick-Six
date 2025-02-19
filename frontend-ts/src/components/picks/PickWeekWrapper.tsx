@@ -13,6 +13,7 @@ import GameWrapper from './GameWrapper';
 import { useParams } from 'react-router-dom';
 import { useEffect, useMemo } from 'react';
 import { ScrollShadow } from '@heroui/scroll-shadow';
+import SavedChip from './SavedChip';
 type GamesByWeekArray = Record<
   number,
   (Game & { home_team: Team; away_team: Team })[]
@@ -22,7 +23,6 @@ const PickWeekWrapper = () => {
   const teams = useSelector(selectTeams);
   const games = useSelector(selectGames);
   const picks = useSelector(selectPicks);
-  const isPicksLoading = useSelector(picksLoading);
   const [selectedWeek, setSelectedWeek] = useState<number>(1);
   //Get the group id for uploading picks.
   const { id } = useParams();
@@ -98,11 +98,7 @@ const PickWeekWrapper = () => {
         initialPage={1}
         total={18}
       />
-      {isPicksLoading ? (
-        <p>saving...</p>
-      ) : (
-        <p>{pickCount + `/` + gameCount + ` picks saved`}</p>
-      )}
+      <SavedChip pickCount={pickCount} gameCount={gameCount} />
       <p>{`Week ${selectedWeek}`}</p>
       <ScrollShadow hideScrollBar className="h-[560px] w-full p-6">
         {gamesByWeek[selectedWeek]?.map((game) => {
