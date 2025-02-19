@@ -4,6 +4,7 @@ import type { Pick } from '@/types';
 import { getToken } from '../../../services/auth';
 import { RootState } from '@/app/store';
 import { fetchPicks } from '../../../api/picks';
+
 export interface PickState {
   picks: Pick[];
   loading: boolean;
@@ -54,3 +55,8 @@ export const pickSlice = createSlice({
     });
   },
 });
+
+export const selectPicks = (state: RootState) => state.picks.picks;
+export const { setPicks, resetPicks } = pickSlice.actions;
+
+export default pickSlice.reducer;

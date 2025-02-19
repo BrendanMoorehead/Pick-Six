@@ -2,7 +2,7 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import groupSlice from '@/features/groups/groupSlice';
 import teamSlice from '@/features/teams/teamsSlice';
 import gameSlice from '@/features/games/gameSlice';
-import { pickSlice } from '@/features/picks/pickSlice';
+import pickSlice from '@/features/picks/pickSlice';
 import storage from 'redux-persist/lib/storage'; // Defaults to localStorage for web
 import { persistReducer, persistStore } from 'redux-persist';
 
