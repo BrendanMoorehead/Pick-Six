@@ -14,7 +14,7 @@ export async function makePicks(
   if (!token) throw new Error('User not authenticated (makePicks)');
   console.log('Making picks (frontend)');
   console.log(data);
-  const response = await fetch('http://localhost:5000/picks/batch_make', {
+  const response = await fetch('http://localhost:5001/picks/batch_make', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -36,7 +36,7 @@ export async function fetchPicks(
   if (!token) throw new Error('User not authenticated (fetchPicks)');
   console.log('Fetching picks with token:', token);
   const response = await fetch(
-    `http://localhost:5000/picks/group_picks?group_id=${group_id}`,
+    `http://localhost:5001/picks/group_picks?group_id=${group_id}`,
     {
       method: 'GET',
       headers: {

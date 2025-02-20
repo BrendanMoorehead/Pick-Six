@@ -13,7 +13,7 @@ export async function fetchGames(
   if (!token) throw new Error('User not authenticated (fetchGames)');
   if (!season) throw new Error('Season parameter is required (fetchGames)');
   const response = await fetch(
-    `http://localhost:5000/games/get?season=${season}`,
+    `http://localhost:5001/games/get?season=${season}`,
     {
       method: 'GET',
       headers: {

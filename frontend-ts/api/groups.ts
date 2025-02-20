@@ -25,7 +25,7 @@ export async function createGroup(
   token: string
 ): Promise<CreateGroupResponse> {
   console.log(data, token);
-  const response = await fetch('http://localhost:5000/groups/create', {
+  const response = await fetch('http://localhost:5001/groups/create', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -43,7 +43,7 @@ export async function createGroup(
 export async function fetchGroups(token: string): Promise<{ groups: Group[] }> {
   if (!token) throw new Error('User not authenticated (fetchGroups)');
   console.log('Fetching groups with token:', token);
-  const response = await fetch('http://localhost:5000/groups/get_groups', {
+  const response = await fetch('http://localhost:5001/groups/get_groups', {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${token}`,
