@@ -16,11 +16,13 @@ import { selectTeams } from '@/features/teams/teamsSlice';
 import { selectGroups } from '@/features/groups/groupSlice';
 import PickWeekWrapper from '@/components/picks/PickWeekWrapper';
 import { useParams } from 'react-router-dom';
-
+import { getCountPicks } from '@/utility/getCountPicks';
+import { selectPicks } from '@/features/picks/pickSlice';
 const GroupPage = () => {
   const { id } = useParams();
   const groups = useSelector(selectGroups);
   const teams = useSelector(selectTeams);
+  const picks = useSelector(selectPicks);
 
   const group = groups.find((g) => g.id.toString() === id);
   if (!group) {
@@ -36,6 +38,7 @@ const GroupPage = () => {
   for (let i = 0; i < 16; i++) {
     gamesArr.push({ team1: 'test1', team2: 'test2' });
   }
+  const { correctPicks, totalPicks } = getCountPicks(picks);
   //Group Name
   return (
     <div className="w-full h-full p-8 flex-1 bg-gray-100 flex-col flex gap-8">
@@ -47,7 +50,7 @@ const GroupPage = () => {
       </div>
       <div className="grid grid-cols-3 h-full">
         <div>
-          <PickRateCard week={12} />
+          <PickRateCard week={12} correctPicks={correctPicks} totalPicks={totalPicks} />
         </div>
         <div className="flex flex-col items-center col-span-2 border-1 bg-white border-black gap-2">
           <h4 className="font-serif text-2xl font-bold">WEEKS</h4>
