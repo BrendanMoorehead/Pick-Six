@@ -1,94 +1,45 @@
-import {
-  Pagination,
-  PaginationItem,
-  PaginationCursor,
-} from '@heroui/pagination';
+import { Pagination } from '@heroui/pagination';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { selectTeams } from '@/features/teams/teamsSlice';
 import { selectGames } from '@/features/games/gameSlice';
-import { picksLoading, selectPicks } from '@/features/picks/pickSlice';
-import { Game, Team } from '@/types';
+import { selectPicks } from '@/features/picks/pickSlice';
 import GameWrapper from './GameWrapper';
 import { useParams } from 'react-router-dom';
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import { ScrollShadow } from '@heroui/scroll-shadow';
 import SavedChip from './SavedChip';
-type GamesByWeekArray = Record<
-  number,
-  (Game & { home_team: Team; away_team: Team })[]
->;
+import { organizeGamesByWeek } from '@/utility/organizeGamesByWeek';
 
+/**
+ * PickWeekWrapper is a component that displays all NFL games for a given week.
+ */
 const PickWeekWrapper = () => {
   const teams = useSelector(selectTeams);
   const games = useSelector(selectGames);
   const picks = useSelector(selectPicks);
   const [selectedWeek, setSelectedWeek] = useState<number>(1);
-  //Get the group id for uploading picks.
+  //Retrieve the group id from the url.
   const { id } = useParams();
-  useEffect(() => {
-    // You might want to fetch new picks or perform other actions here
-    console.log(`Group ID changed: ${Number(id)}`);
-    // Example: dispatch(fetchPicksForGroup(Number(id)));
-  }, [id]);
+  //Filter the user's picks for the current group.
   const filteredPicks = useMemo(() => {
     return picks.filter((pick) => pick.group_id === Number(id));
   }, [picks, id]);
   console.log(id);
-  //Games are passed to the PickWeekWrapper and the GameWrapper is populated from here.
-  //User picks need to be fetched to populate too
-  //Picks are uploaded on change from here, saved icon should be shown, potentially run a timer to group populate, timer resets on click
+
   const handlePageChange = (week: number) => {
     setSelectedWeek(week);
   };
 
-  const savePick = () => {
-    //Pick: made_by, pick (team id), group_id
-  };
-
-  function organizeGamesByWeek(games: Game[]): GamesByWeekArray {
-    if (!games || games.length === 0) {
-      console.warn('No games available for organizing');
-      return {};
-    }
-    const teamMap = new Map<number, Team>();
-    teams.forEach((team) => teamMap.set(team.team_id, team));
-    const maxWeek = Math.max(...games.map((game) => game.week));
-    const gamesByWeek: GamesByWeekArray = new Array(maxWeek + 1).fill(
-      undefined
-    );
-    for (const game of games) {
-      // console.log('gameloop', game);
-      if (Number(game.season_type) !== 1) continue;
-      const homeTeam = teamMap.get(game.home_team_id);
-      const awayTeam = teamMap.get(game.away_team_id);
-      if (!homeTeam || !awayTeam) {
-        console.warn(`Missing team info for game: ${game.id}`);
-        continue;
-      }
-
-      // console.log('stype 2');
-      if (!gamesByWeek[game.week]) {
-        gamesByWeek[game.week] = [];
-      }
-      gamesByWeek[game.week]?.push({
-        ...game,
-        home_team: homeTeam,
-        away_team: awayTeam,
-      });
-    }
-    return gamesByWeek;
-  }
-
-  const gamesByWeek = organizeGamesByWeek(games);
+  const gamesByWeek = organizeGamesByWeek(games, teams);
 
   const pickCount = picks.filter((pick) => {
     return gamesByWeek[selectedWeek].some(
       (game) => game.game_id === pick.game_id
     );
   }).length;
-
   const gameCount = gamesByWeek[selectedWeek].length;
+
   return (
     <div>
       <Pagination
