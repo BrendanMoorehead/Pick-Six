@@ -1,16 +1,5 @@
 import PickRateCard from '@/components/PickRateCard';
-import {
-  Pagination,
-  PaginationItem,
-  PaginationCursor,
-} from '@heroui/pagination';
-import { Tab, Tabs } from '@heroui/tabs';
-import { ScrollShadow } from '@heroui/scroll-shadow';
-import TeamRadioButton from '@/components/TeamRadioButton';
-import { Radio, RadioGroup } from '@heroui/radio';
-import PickCard from '@/components/picks/PickCard';
 import { Team } from '@/types';
-import GameWrapper from '@/components/picks/GameWrapper';
 import { useSelector } from 'react-redux';
 import { selectTeams } from '@/features/teams/teamsSlice';
 import { selectGroups } from '@/features/groups/groupSlice';
@@ -52,10 +41,10 @@ const GroupPage = () => {
         <div>
           <PickRateCard week={12} correctPicks={correctPicks} totalPicks={totalPicks} />
         </div>
-        <div className="flex flex-col items-center col-span-2 border-1 bg-white border-black gap-2">
+        <div className="flex flex-col items-center col-span-2 bg-white rounded-xl gap-2">
           <h4 className="font-serif text-2xl font-bold">WEEKS</h4>
           <div className="flex flex-col content-center ">
-            <PickWeekWrapper />
+            <PickWeekWrapper key={id} id={id} group={group} />
           </div>
         </div>
       </div>

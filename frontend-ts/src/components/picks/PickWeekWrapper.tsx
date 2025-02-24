@@ -5,7 +5,7 @@ import { selectTeams } from '@/features/teams/teamsSlice';
 import { selectGames } from '@/features/games/gameSlice';
 import { selectPicks } from '@/features/picks/pickSlice';
 import GameWrapper from './GameWrapper';
-import { useParams } from 'react-router-dom';
+import { Group } from '@/types';
 import { useMemo } from 'react';
 import { ScrollShadow } from '@heroui/scroll-shadow';
 import SavedChip from './SavedChip';
@@ -14,18 +14,17 @@ import { organizeGamesByWeek } from '@/utility/organizeGamesByWeek';
 /**
  * PickWeekWrapper is a component that displays all NFL games for a given week.
  */
-const PickWeekWrapper = () => {
+const PickWeekWrapper = ({ id, group }: { id: string, group: Group }) => {
   const teams = useSelector(selectTeams);
   const games = useSelector(selectGames);
   const picks = useSelector(selectPicks);
   const [selectedWeek, setSelectedWeek] = useState<number>(1);
   //Retrieve the group id from the url.
-  const { id } = useParams();
+
   //Filter the user's picks for the current group.
   const filteredPicks = useMemo(() => {
     return picks.filter((pick) => pick.group_id === Number(id));
   }, [picks, id]);
-  console.log(id);
 
   const handlePageChange = (week: number) => {
     setSelectedWeek(week);
