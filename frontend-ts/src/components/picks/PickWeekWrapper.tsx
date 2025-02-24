@@ -10,7 +10,8 @@ import { useMemo } from 'react';
 import { ScrollShadow } from '@heroui/scroll-shadow';
 import SavedChip from './SavedChip';
 import { organizeGamesByWeek } from '@/utility/organizeGamesByWeek';
-
+import { FaLock } from "react-icons/fa6";
+import { Tooltip } from '@heroui/tooltip';
 /**
  * PickWeekWrapper is a component that displays all NFL games for a given week.
  */
@@ -41,8 +42,8 @@ const PickWeekWrapper = ({ id, group }: { id: string, group: Group }) => {
 
   return (
     <div className='flex flex-col gap-4 justify-center items-center'>
-      <h4 className="font-serif text-2xl font-bold">{`WEEK ${selectedWeek}`}</h4>
-      <div className='flex flex-row gap-4 pb-12'>
+      <h4 className="font-serif text-4xl font-bold">{`WEEK ${selectedWeek}`}</h4>
+      <div className='flex flex-row gap-4 pb-2'>
       <SavedChip pickCount={pickCount} gameCount={gameCount} />
       <Pagination
         onChange={(id) => handlePageChange(id)}
@@ -51,7 +52,18 @@ const PickWeekWrapper = ({ id, group }: { id: string, group: Group }) => {
         initialPage={1}
         total={18}
         color="primary"
-      /></div>
+      />
+       <div className="flex">
+      
+      <Tooltip content="Picks for this week are locked">
+      <p className="text-gray-500 text-sm bg-gray-100 p-3 px-3 rounded-xl flex justify-center items-center drop-shadow-sm">
+        <FaLock />
+        </p>
+      </Tooltip>
+ 
+    </div>
+      </div>
+     
       <ScrollShadow hideScrollBar className="h-[560px] w-full p-6">
         {gamesByWeek[selectedWeek]?.map((game) => {
           const pickForGame = filteredPicks.find(

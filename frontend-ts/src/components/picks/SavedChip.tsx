@@ -10,7 +10,7 @@ const SavedChip = ({
   const isPicksLoading = useSelector(picksLoading);
   return (
     <div className="flex">
-      <p className="text-gray-500 text-sm bg-gray-100 p-2 rounded-lg">
+      <p className="text-gray-500 text-sm bg-gray-100 p-2 rounded-xl drop-shadow-sm">
         {isPicksLoading ? 'saving...' : `${pickCount}/${gameCount} picks saved`}
       </p>
     </div>
