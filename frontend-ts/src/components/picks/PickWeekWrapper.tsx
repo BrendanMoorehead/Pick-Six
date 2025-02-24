@@ -109,7 +109,7 @@ const PickWeekWrapper = () => {
           return (
             <GameWrapper
               key={game.game_id}
-              teams={[game.home_team, game.away_team]}
+              matchup={[game.home_team, game.away_team]}
               pick={pickForGame}
               game={game}
               group_id={Number(id)}
