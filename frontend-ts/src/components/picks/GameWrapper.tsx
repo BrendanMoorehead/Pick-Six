@@ -5,7 +5,15 @@ import { addPick, makePicksThunk } from '@/features/picks/pickSlice';
 import { useDispatch } from 'react-redux';
 import { CreatePicksRequest } from '../../../api/picks';
 import { AppDispatch } from '@/app/store';
-import { supabase } from '../../../supabaseClient';
+
+/**
+ * GameWrapper is a component that displays a game and allows the user to select a match winner.
+ * @param matchup - an array of two teams, playing against each other.
+ * @param pick - The pick for the game.
+ * @param game - The game object.
+ * @param group_id - The group ID for the pick.
+ * @returns 
+ */
 const GameWrapper = ({
   matchup,
   pick,
