@@ -40,16 +40,18 @@ const PickWeekWrapper = ({ id, group }: { id: string, group: Group }) => {
   const gameCount = gamesByWeek[selectedWeek].length;
 
   return (
-    <div>
+    <div className='flex flex-col gap-4 justify-center items-center'>
+      <h4 className="font-serif text-2xl font-bold">{`WEEK ${selectedWeek}`}</h4>
+      <div className='flex flex-row gap-4 pb-12'>
+      <SavedChip pickCount={pickCount} gameCount={gameCount} />
       <Pagination
         onChange={(id) => handlePageChange(id)}
         isCompact
         showControls
         initialPage={1}
         total={18}
-      />
-      <SavedChip pickCount={pickCount} gameCount={gameCount} />
-      <p>{`Week ${selectedWeek}`}</p>
+        color="primary"
+      /></div>
       <ScrollShadow hideScrollBar className="h-[560px] w-full p-6">
         {gamesByWeek[selectedWeek]?.map((game) => {
           const pickForGame = filteredPicks.find(

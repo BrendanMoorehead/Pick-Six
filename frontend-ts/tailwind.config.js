@@ -16,6 +16,7 @@ module.exports = {
         serif: ['DM Serif Display', 'serif'],
       },
       colors: {
+        primary: '#0d542b',
         1: {
           //Arizona Cardinals
           primary: '#97233F',

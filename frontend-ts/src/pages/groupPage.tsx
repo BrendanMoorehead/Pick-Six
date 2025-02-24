@@ -7,6 +7,7 @@ import PickWeekWrapper from '@/components/picks/PickWeekWrapper';
 import { useParams } from 'react-router-dom';
 import { getCountPicks } from '@/utility/getCountPicks';
 import { selectPicks } from '@/features/picks/pickSlice';
+import { Card } from '@heroui/card';
 const GroupPage = () => {
   const { id } = useParams();
   const groups = useSelector(selectGroups);
@@ -41,12 +42,11 @@ const GroupPage = () => {
         <div>
           <PickRateCard week={12} correctPicks={correctPicks} totalPicks={totalPicks} />
         </div>
-        <div className="flex flex-col items-center col-span-2 bg-white rounded-xl gap-2">
-          <h4 className="font-serif text-2xl font-bold">WEEKS</h4>
+        <Card className="flex flex-col items-center col-span-2 bg-white rounded-xl gap-2 p-8">
           <div className="flex flex-col content-center ">
             <PickWeekWrapper key={id} id={id} group={group} />
           </div>
-        </div>
+        </Card>
       </div>
     </div>
   );
