@@ -125,6 +125,32 @@ export async function insertNFLFinalScores(scoresArr) {
     throw error;
   }
 }
+export async function insertTimeframes(timeframeData) {
+  try {
+    const { data, error } = await supabase.from('timeframes').upsert(
+      timeframeData.map((timeframe) => ({
+        season_type: timeframe.SeasonType,
+        name: timeframe.Name,
+        start_date: timeframe.StartDate,
+        end_date: timeframe.EndDate,
+        first_game_start: timeframe.FirstGameStart,
+        first_game_end: timeframe.FirstGameEnd,
+        last_game_end: timeframe.LastGameEnd,
+        has_started: timeframe.HasStarted,
+        has_ended: timeframe.HasEnded,
+        week: timeframe.Week,
+        season: timeframe.Season,
+      })),
+      { onConflict: ['week', 'season', 'season_type'] }
+    );
+    if (error) {
+      console.error('Failed to upsert NFL timeframes: ', error.message);
+      throw new Error(error.message);
+    }
+  } catch (error) {
+    throw error;
+  }
+}
 
 export async function queryWeeklyMatches(season, week) {
   try {

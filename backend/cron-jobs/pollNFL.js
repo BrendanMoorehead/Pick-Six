@@ -5,6 +5,7 @@ import {
   insertNFLSchedules,
   insertNFLTeamRecords,
   insertNFLTeams,
+  insertTimeframes,
   queryWeeklyMatches,
 } from './database.js';
 import {
@@ -140,5 +141,29 @@ export async function getNFLScheduleForCurrentYear() {
     const postseason = await fetchNFLSeasonSchedule(postString);
   } catch (error) {
     console.error(error.message);
+  }
+}
+
+export async function fetchTimeframes() {
+  try {
+    console.log('Fetching all timeframes...');
+    const response = await axios.get(
+      `https://api.sportsdata.io/v3/nfl/scores/json/Timeframes/all?key=${process.env.NFL_API_KEY}`
+    );
+    const timeframes = response.data.filter(
+      (game) => game.Season > 2023 && game.Week !== null && game.Season !== null
+    );
+    return timeframes;
+  } catch (error) {
+    console.error(error.message);
+  }
+}
+
+export async function getTimeframes() {
+  try {
+    const timeframeData = await fetchTimeframes();
+    await insertTimeframes(timeframeData);
+  } catch (error) {
+    console.error('Error in insertTimeframes: ', error.message);
   }
 }
