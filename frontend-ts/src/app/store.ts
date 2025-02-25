@@ -5,6 +5,7 @@ import gameSlice from '@/features/games/gameSlice';
 import pickSlice from '@/features/picks/pickSlice';
 import storage from 'redux-persist/lib/storage'; // Defaults to localStorage for web
 import { persistReducer, persistStore } from 'redux-persist';
+import timeframesSlice from '@/features/timeframes/timeframesSlice';
 
 const persistConfig = {
   key: 'root',
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   teams: teamSlice,
   games: gameSlice,
   picks: pickSlice,
+  timeframes: timeframesSlice,
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 

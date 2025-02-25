@@ -36,3 +36,17 @@ export type Pick = {
   status: string;
   made_by?: string;
 };
+
+export type Timeframe = {
+  season_type: number;
+  week: number;
+  season: number;
+  name: string;
+  start_date: string;
+  end_date: string;
+  first_game_start: string;
+  first_game_end: string;
+  last_game_end: string;
+  has_started: boolean;
+  has_ended: boolean;
+};
