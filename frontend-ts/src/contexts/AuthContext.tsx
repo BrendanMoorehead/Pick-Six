@@ -11,6 +11,7 @@ import { fetchGroupsThunk } from '@/features/groups/groupSlice';
 import { fetchTeamsThunk } from '@/features/teams/teamsSlice';
 import { fetchGamesThunk } from '@/features/games/gameSlice';
 import { fetchPicksThunk } from '@/features/picks/pickSlice';
+import { fetchTimeframesThunk } from '@/features/timeframes/timeframesSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '@/app/store';
 import { RootState } from '@/app/store';
@@ -34,6 +35,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const groups = useSelector((state: RootState) => state.groups.groups);
   const teams = useSelector((state: RootState) => state.teams.teams);
   const picks = useSelector((state: RootState) => state.picks.picks);
+  const timeframes = useSelector(
+    (state: RootState) => state.timeframes.timeframes
+  );
   useEffect(() => {
     let isMounted = true;
     const checkUser = async () => {
@@ -64,7 +68,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       if (groups.length === 0) dispatch(fetchGroupsThunk());
       if (teams.length === 0) dispatch(fetchTeamsThunk());
       if (games.length === 0) dispatch(fetchGamesThunk());
+      // TODO: Picks are currently only fetched for a specific group (24);
       if (picks.length === 0) dispatch(fetchPicksThunk(24));
+      if (timeframes.length === 0) dispatch(fetchTimeframesThunk());
     }
   }, [user, dispatch, games.length, groups.length, teams.length, picks.length]);
 

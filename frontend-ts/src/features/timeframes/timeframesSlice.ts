@@ -3,6 +3,7 @@ import { PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '@/app/store';
 import { getToken } from '../../../services/auth';
 import { Timeframe } from '@/types';
+import { fetchTimeframes } from '../../../api/timeframes';
 
 export interface TimeframeState {
   timeframes: Timeframe[];

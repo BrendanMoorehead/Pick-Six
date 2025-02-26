@@ -3,12 +3,15 @@ export async function fetchTimeframes(
   token: string
 ): Promise<{ timeframes: Timeframe[] }> {
   if (!token) throw new Error('User not authenticated (fetchTimeframes)');
-  const response = await fetch('http://localhost:5001/teams/get_timeframes', {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  const response = await fetch(
+    'http://localhost:5001/timeframes/get_timeframes',
+    {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
   if (!response.ok) {
     const errorText = await response.text();
     console.log('Response Error:', errorText);
