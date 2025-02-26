@@ -6,6 +6,7 @@ import { resetTeams } from '@/features/teams/teamsSlice';
 import { resetGroups } from '@/features/groups/groupSlice';
 import { persistor } from '../../src/app/store';
 import { resetPicks } from '@/features/picks/pickSlice';
+import { resetTimeframes } from '@/features/timeframes/timeframesSlice';
 
 export default function LogoutButton() {
   const dispatch = useDispatch();
@@ -14,6 +15,7 @@ export default function LogoutButton() {
     dispatch(resetTeams());
     dispatch(resetGroups());
     dispatch(resetPicks());
+    dispatch(resetTimeframes());
     persistor.flush();
     supabase.auth.signOut();
   };

@@ -10,15 +10,17 @@ import { useMemo } from 'react';
 import { ScrollShadow } from '@heroui/scroll-shadow';
 import SavedChip from './SavedChip';
 import { organizeGamesByWeek } from '@/utility/organizeGamesByWeek';
-import { FaLock } from "react-icons/fa6";
+import { FaLock, FaUnlock } from 'react-icons/fa6';
 import { Tooltip } from '@heroui/tooltip';
+import { selectTimeframes } from '@/features/timeframes/timeframesSlice';
 /**
  * PickWeekWrapper is a component that displays all NFL games for a given week.
  */
-const PickWeekWrapper = ({ id, group }: { id: string, group: Group }) => {
+const PickWeekWrapper = ({ id, group }: { id: string; group: Group }) => {
   const teams = useSelector(selectTeams);
   const games = useSelector(selectGames);
   const picks = useSelector(selectPicks);
+  const timeframes = useSelector(selectTimeframes);
   const [selectedWeek, setSelectedWeek] = useState<number>(1);
   //Retrieve the group id from the url.
 
@@ -39,31 +41,39 @@ const PickWeekWrapper = ({ id, group }: { id: string, group: Group }) => {
     );
   }).length;
   const gameCount = gamesByWeek[selectedWeek].length;
+  const currentTimeframe = timeframes.filter(
+    (timeframe) =>
+      timeframe.week === selectedWeek && timeframe.season_type === 1
+  );
 
   return (
-    <div className='flex flex-col gap-4 justify-center items-center'>
+    <div className="flex flex-col gap-4 justify-center items-center">
       <h4 className="font-serif text-4xl font-bold">{`WEEK ${selectedWeek}`}</h4>
-      <div className='flex flex-row gap-4 pb-2'>
-      <SavedChip pickCount={pickCount} gameCount={gameCount} />
-      <Pagination
-        onChange={(id) => handlePageChange(id)}
-        isCompact
-        showControls
-        initialPage={1}
-        total={18}
-        color="primary"
-      />
-       <div className="flex">
-      
-      <Tooltip content="Picks for this week are locked">
-      <p className="text-gray-500 text-sm bg-gray-100 p-3 px-3 rounded-xl flex justify-center items-center drop-shadow-sm">
-        <FaLock />
-        </p>
-      </Tooltip>
- 
-    </div>
+      <div className="flex flex-row gap-4 pb-2">
+        <SavedChip pickCount={pickCount} gameCount={gameCount} />
+        <Pagination
+          onChange={(id) => handlePageChange(id)}
+          isCompact
+          showControls
+          initialPage={1}
+          total={18}
+          color="primary"
+        />
+        <div className="flex">
+          <Tooltip
+            content={
+              currentTimeframe[0].has_started
+                ? 'Picks for this week are locked'
+                : 'Picks can be made'
+            }
+          >
+            <p className="text-gray-500 text-sm bg-gray-100 p-3 px-3 rounded-xl flex justify-center items-center drop-shadow-sm">
+              {currentTimeframe[0].has_started ? <FaLock /> : <FaUnlock />}
+            </p>
+          </Tooltip>
+        </div>
       </div>
-     
+
       <ScrollShadow hideScrollBar className="h-[560px] w-full p-6">
         {gamesByWeek[selectedWeek]?.map((game) => {
           const pickForGame = filteredPicks.find(
