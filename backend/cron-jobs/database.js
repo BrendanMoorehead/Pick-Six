@@ -114,6 +114,12 @@ export async function insertNFLFinalScores(scoresArr) {
         game_key: score.GameKey,
         away_score: score.AwayScore,
         home_score: score.HomeScore,
+        winner:
+          score.AwayScore > score.HomeScore
+            ? score.GlobalAwayTeamID
+            : score.AwayScore < score.HomeScore
+            ? score.GlobalHomeTeamID
+            : null,
       })),
       { onConflict: ['score_id'] }
     );
@@ -158,6 +164,33 @@ export async function queryWeeklyMatches(season, week) {
       week,
       season,
     });
+    if (error) {
+      throw new Error(error.message);
+    }
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function queryUnresolvedPicks() {
+  try {
+    const { data, error } = await supabase
+      .from('user_picks')
+      .select()
+      .is('result', null);
+    if (error) {
+      throw new Error(error.message);
+    }
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function queryScores() {
+  try {
+    const { data, error } = await supabase.from('nfl_scores').select();
     if (error) {
       throw new Error(error.message);
     }
