@@ -13,6 +13,7 @@ import { organizeGamesByWeek } from '@/utility/organizeGamesByWeek';
 import { FaLock, FaUnlock } from 'react-icons/fa6';
 import { Tooltip } from '@heroui/tooltip';
 import { selectTimeframes } from '@/features/timeframes/timeframesSlice';
+import { current } from '@reduxjs/toolkit';
 /**
  * PickWeekWrapper is a component that displays all NFL games for a given week.
  */
@@ -46,6 +47,18 @@ const PickWeekWrapper = ({ id, group }: { id: string; group: Group }) => {
       timeframe.week === selectedWeek && timeframe.season_type === 1
   );
 
+  const formatDate = (date: Date) => {
+    return date.toLocaleDateString('en-US', {
+      weekday: 'long',
+      month: 'long',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+    });
+  };
+
+  const startDay = new Date(currentTimeframe[0].first_game_start);
+  const startDate = formatDate(startDay);
   return (
     <div className="flex flex-col gap-4 justify-center items-center">
       <h4 className="font-serif text-4xl font-bold">{`WEEK ${selectedWeek}`}</h4>
@@ -64,7 +77,7 @@ const PickWeekWrapper = ({ id, group }: { id: string; group: Group }) => {
             content={
               currentTimeframe[0].has_started
                 ? 'Picks for this week are locked'
-                : 'Picks can be made'
+                : `Picks lock on ${startDate}`
             }
           >
             <p className="text-gray-500 text-sm bg-gray-100 p-3 px-3 rounded-xl flex justify-center items-center drop-shadow-sm">
@@ -87,6 +100,7 @@ const PickWeekWrapper = ({ id, group }: { id: string; group: Group }) => {
               pick={pickForGame}
               game={game}
               group_id={Number(id)}
+              locked={currentTimeframe[0].has_started}
             />
           );
         })}

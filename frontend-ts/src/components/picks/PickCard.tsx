@@ -4,15 +4,20 @@ interface PickCardProps {
   team: Team;
   changeSelection: (id: number) => void;
   selected: boolean;
+  locked: boolean;
 }
 
-const PickCard = ({ team, changeSelection, selected }: PickCardProps) => {
+const PickCard = ({
+  team,
+  changeSelection,
+  selected,
+  locked,
+}: PickCardProps) => {
   const primaryRGBA = hexToRgba(team.primary_color, 1);
   const secondaryRGBA = hexToRgba(team.secondary_color, 1);
 
   const cardClick = () => {
-    console.log(`${team.name} clicked`);
-    changeSelection(team.team_id);
+    if (!locked) changeSelection(team.team_id);
   };
 
   return (
@@ -25,7 +30,9 @@ const PickCard = ({ team, changeSelection, selected }: PickCardProps) => {
       }}
     >
       <div
-        className={`bg-white p-4 py-8 rounded-xl flex justify-center cursor-pointer hover:bg-gray-100`}
+        className={` p-4 py-8 rounded-xl flex justify-center 
+          ${locked ? 'bg-gray-200 cursor-not-allowed' : 'hover:bg-gray-100 bg-white cursor-pointer '}
+          `}
         onClick={() => cardClick()}
       >
         <p className="font-bold select-none">{team.name}</p>

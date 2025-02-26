@@ -12,18 +12,20 @@ import { AppDispatch } from '@/app/store';
  * @param pick - The pick for the game.
  * @param game - The game object.
  * @param group_id - The group ID for the pick.
- * @returns 
+ * @returns
  */
 const GameWrapper = ({
   matchup,
   pick,
   game,
   group_id,
+  locked,
 }: {
   matchup: Team[];
   pick: Pick;
   game: Game;
   group_id: number;
+  locked: boolean;
 }) => {
   const [selectedTeam, setSelectedTeam] = useState<number | null>(pick?.pick);
   const dispatch = useDispatch<AppDispatch>();
@@ -53,12 +55,14 @@ const GameWrapper = ({
         changeSelection={() => changeSelection(matchup[0].team_id, game)}
         selected={selectedTeam === matchup[0].team_id ? true : false}
         team={matchup[0]}
+        locked={locked}
       />
       <p className="font-serif  text-xl">vs.</p>
       <PickCard
         changeSelection={() => changeSelection(matchup[1].team_id, game)}
         team={matchup[1]}
         selected={selectedTeam === matchup[1].team_id ? true : false}
+        locked={locked}
       />
     </div>
   );
