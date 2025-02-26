@@ -7,8 +7,8 @@ import testRoutes from './routes/test.js';
 import gameRoutes from './routes/games.js';
 import pickRoutes from './routes/picks.js';
 import teamRoutes from './routes/teams.js';
+import timeframeRoutes from './routes/timeframes.js';
 
-import { authenticateUser } from './middleware/auth.js';
 dotenv.config();
 const app = express();
 app.use(cors());
@@ -19,6 +19,7 @@ app.use('/groups', groupRoutes);
 app.use('/games', gameRoutes);
 app.use('/picks', pickRoutes);
 app.use('/teams', teamRoutes);
+app.use('/timeframes', timeframeRoutes);
 
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
