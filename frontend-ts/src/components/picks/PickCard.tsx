@@ -34,8 +34,8 @@ const PickCard = ({
       <div
         className={` p-4 py-8 rounded-xl flex justify-center 
           ${locked ? 'bg-gray-200 cursor-not-allowed' : 'hover:bg-gray-100 bg-white cursor-pointer '}
-          ${pick.result && locked && selected && 'bg-green-500'}
-          ${pick.result === false && locked && selected && 'bg-red-500'}
+          ${pick?.result && locked && selected && 'bg-green-500'}
+          ${pick?.result === false && locked && selected && 'bg-red-500'}
           `}
         onClick={() => cardClick()}
       >
