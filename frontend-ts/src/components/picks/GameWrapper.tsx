@@ -56,6 +56,7 @@ const GameWrapper = ({
         selected={selectedTeam === matchup[0].team_id ? true : false}
         team={matchup[0]}
         locked={locked}
+        pick={pick}
       />
       <p className="font-serif  text-xl">vs.</p>
       <PickCard
@@ -63,6 +64,7 @@ const GameWrapper = ({
         team={matchup[1]}
         selected={selectedTeam === matchup[1].team_id ? true : false}
         locked={locked}
+        pick={pick}
       />
     </div>
   );

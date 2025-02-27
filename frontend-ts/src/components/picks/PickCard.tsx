@@ -1,10 +1,11 @@
 import { hexToRgba } from '@/utility/hextoRgba';
-import { Team } from '@/types';
+import { Team, Pick } from '@/types';
 interface PickCardProps {
   team: Team;
   changeSelection: (id: number) => void;
   selected: boolean;
   locked: boolean;
+  pick: Pick;
 }
 
 const PickCard = ({
@@ -12,6 +13,7 @@ const PickCard = ({
   changeSelection,
   selected,
   locked,
+  pick,
 }: PickCardProps) => {
   const primaryRGBA = hexToRgba(team.primary_color, 1);
   const secondaryRGBA = hexToRgba(team.secondary_color, 1);
@@ -32,6 +34,8 @@ const PickCard = ({
       <div
         className={` p-4 py-8 rounded-xl flex justify-center 
           ${locked ? 'bg-gray-200 cursor-not-allowed' : 'hover:bg-gray-100 bg-white cursor-pointer '}
+          ${pick.result && locked && selected && 'bg-green-500'}
+          ${pick.result === false && locked && selected && 'bg-red-500'}
           `}
         onClick={() => cardClick()}
       >
