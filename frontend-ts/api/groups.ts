@@ -1,4 +1,4 @@
-import { Group } from '@/types';
+import { Group, Member } from '@/types';
 
 export type CreateGroupRequest = {
   group_name: string;
@@ -19,6 +19,9 @@ export type GetGroupsResponse = {
   groups?: Group[];
   message?: string;
 };
+interface MembersResponse {
+  members: Member[]; // Replace 'any' with the appropriate type for members
+}
 
 export async function createGroup(
   data: CreateGroupRequest,
@@ -58,4 +61,26 @@ export async function fetchGroups(token: string): Promise<{ groups: Group[] }> {
   const data: Group[] = await response.json();
   console.log('Fetched Response:', data);
   return { groups: data };
+}
+
+export async function fetchGroupMembers(
+  group_id: bigint,
+  token: string
+): Promise<MembersResponse> {
+  if (!token) throw new Error('User not authenticated (fetchGroupMembers)');
+  const response = await fetch('http://localhost:5001/groups/info', {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      body: JSON.stringify(group_id),
+    },
+  });
+  if (!response.ok) {
+    const errorText = await response.text();
+    console.log('Response Error:', errorText);
+    throw new Error(`Failed to fetch group members: ${errorText}`);
+  }
+  const data: MembersResponse = await response.json();
+  console.log('Fetched Response:', data);
+  return data;
 }

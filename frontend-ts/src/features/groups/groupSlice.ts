@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import type { Group } from '@/types';
-import { fetchGroups } from '../../../api/groups';
+import { fetchGroups, fetchGroupMembers } from '../../../api/groups';
 import { getToken } from '../../../services/auth';
 import { RootState } from '@/app/store';
 
@@ -16,14 +16,20 @@ const initialState: GroupState = {
   loading: false,
   error: null,
 };
-
 export const fetchGroupsThunk = createAsyncThunk(
   'groups/fetchGroups',
   async (): Promise<Group[]> => {
     try {
       const token = await getToken();
       const response = await fetchGroups(token);
-      return response.groups as Group[];
+      const groups = response.groups as Group[];
+      const groupsWithMembers = await Promise.all(
+        groups.map(async (group) => {
+          const membersResponse = await fetchGroupMembers(group.id, token);
+          return { ...group, members: membersResponse.members };
+        })
+      );
+      return groupsWithMembers;
     } catch (error) {
       console.error(error);
       throw error;
