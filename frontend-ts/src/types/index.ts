@@ -3,6 +3,14 @@ export type Group = {
   group_name: string;
   created_at: string;
   created_by: string;
+  members: Member[];
+};
+
+export type Member = {
+  member_id: string;
+  role: string;
+  username: string;
+  email: string;
 };
 
 export type Team = {
