@@ -68,19 +68,24 @@ export async function fetchGroupMembers(
   token: string
 ): Promise<MembersResponse> {
   if (!token) throw new Error('User not authenticated (fetchGroupMembers)');
-  const response = await fetch('http://localhost:5001/groups/info', {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${token}`,
-      body: JSON.stringify(group_id),
-    },
-  });
+  const response = await fetch(
+    `http://localhost:5001/groups/info?group_id=${group_id}`,
+    {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    }
+  );
   if (!response.ok) {
     const errorText = await response.text();
     console.log('Response Error:', errorText);
     throw new Error(`Failed to fetch group members: ${errorText}`);
   }
-  const data: MembersResponse = await response.json();
-  console.log('Fetched Response:', data);
-  return data;
+  const data = await response.json();
+
+  const responseData = data.data;
+  console.log('Fetched Members:', responseData);
+  return responseData[0];
 }

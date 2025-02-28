@@ -20,6 +20,7 @@ export const fetchGroupsThunk = createAsyncThunk(
   'groups/fetchGroups',
   async (): Promise<Group[]> => {
     try {
+      console.log('fetchGroupsThunk');
       const token = await getToken();
       const response = await fetchGroups(token);
       const groups = response.groups as Group[];
