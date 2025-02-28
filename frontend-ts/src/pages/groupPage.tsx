@@ -10,6 +10,7 @@ import { selectPicks } from '@/features/picks/pickSlice';
 import { Card } from '@heroui/card';
 import Leaderboard from '@/components/Leaderboard';
 import { Pagination } from '@heroui/pagination';
+import { Tabs, Tab } from '@heroui/tabs';
 const GroupPage = () => {
   const { id } = useParams();
   const groups = useSelector(selectGroups);
@@ -42,17 +43,27 @@ const GroupPage = () => {
       </div>
       <div className="grid grid-cols-3 h-full gap-12">
         <div className="flex flex-col gap-8">
-          <PickRateCard week={12} correctPicks={correctPicks} totalPicks={totalPicks} />
+          <PickRateCard
+            week={12}
+            correctPicks={correctPicks}
+            totalPicks={totalPicks}
+          />
           <Card className="flex flex-col items-center col-span-2 bg-white rounded-xl gap-4 p-8">
             <p className="font-serif text-2xl font-bold">LEADERBOARD</p>
-            <Pagination
-        onChange={() => (console.log('hello'))}
-        isCompact
-        showControls
-        initialPage={1}
-        total={18}
-        color="primary"
-      />
+            <div className="flex gap-2 justify-items-end">
+              <Tabs fullWidth isVertical>
+                <Tab key="season" title="Season"></Tab>
+                <Tab key="week" title={`Weekly`}></Tab>
+              </Tabs>
+              <Pagination
+                onChange={() => console.log('hello')}
+                isCompact
+                showControls
+                initialPage={1}
+                total={18}
+                color="primary"
+              />
+            </div>
             <Leaderboard />
           </Card>
         </div>

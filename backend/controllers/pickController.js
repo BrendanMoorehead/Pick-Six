@@ -102,3 +102,39 @@ export async function getGroupPicks(req, res) {
     res.status(500).json({ error: 'Server error' });
   }
 }
+
+/**
+ * @route GET /picks/group_picks_by_week
+ * @desc Get all picks for a group and a given week
+ * Expected to be used for lazy loading on the frontend
+ * @access Private (Requires authentication)
+ * @param {Object} req.query - The request query
+ * @param {string} req.query.group_id - The group for which to get the picks
+ * @param {string} req.query.week - The week for the picks
+ * @returns {Object} 200 - Picks fetched successfully
+ * @returns {Object} 400 - Missing required fields
+ * @returns {Object} 500 - Server error
+ */
+export async function getGroupPicksForWeek(req, res) {
+  const group_id = req.query.group_id;
+  const week = req.query.week;
+  if (!group_id || !week)
+    return res.status.json({ error: 'Missing required data' });
+  try {
+    const { data, error } = await supabase
+      .from('user_picks')
+      .select('*, nfl_games!inner(id, week)')
+      .eq('group_id', group_id)
+      .eq('nfl_games.week', week);
+    if (error) {
+      console.log(error);
+      return res.status(500).json({
+        error: `Failed to get picks for week ${week} in  group ${group_id}`,
+      });
+    }
+    res.status(200).json(data);
+  } catch (error) {
+    console.error('Server Error', error);
+    res.status(500).json({ error: 'Server error' });
+  }
+}
