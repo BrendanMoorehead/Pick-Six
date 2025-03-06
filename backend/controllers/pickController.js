@@ -138,3 +138,24 @@ export async function getGroupPicksForWeek(req, res) {
     res.status(500).json({ error: 'Server error' });
   }
 }
+
+export async function getAggregateGroupPicks(req, res) {
+  const group_id = req.query.group_id;
+  if (!group_id) return res.status.json({ error: 'Missing required data' });
+  try {
+    const { data, error } = await supabase.rpc('get_group_picks', {
+      group_id_param: Number(group_id),
+    });
+    if (error) {
+      console.log(error);
+      return res.status(500).json({
+        error: `Failed to get aggregate picks for group ${group_id}`,
+      });
+    }
+    console.log(data);
+    res.status(200).json(data);
+  } catch (error) {
+    console.error('Server Error', error);
+    res.status(500).json({ error: 'Server error' });
+  }
+}
