@@ -64,7 +64,7 @@ const GroupPage = () => {
                 color="primary"
               />
             </div>
-            <Leaderboard />
+            <Leaderboard id={id || 'No group'} />
           </Card>
         </div>
         <Card className="flex flex-col items-center col-span-2 bg-white rounded-xl gap-2 p-8">
