@@ -152,8 +152,23 @@ export async function getAggregateGroupPicks(req, res) {
         error: `Failed to get aggregate picks for group ${group_id}`,
       });
     }
-    console.log(data);
-    res.status(200).json(data);
+    const transformedPickSum = Object.entries(data.seasons)
+      .map(([season, weeks]) => {
+        return Object.entries(weeks).map(([week, users]) => {
+          return {
+            season: Number(season),
+            week: Number(week),
+            userPicks: Object.entries(users).map(([userId, picks]) => ({
+              userId,
+              totalPicks: picks.total_picks,
+              correctPicks: picks.correct_picks,
+            })),
+          };
+        });
+      })
+      .flat();
+    console.log(transformedPickSum);
+    res.status(200).json(transformedPickSum);
   } catch (error) {
     console.error('Server Error', error);
     res.status(500).json({ error: 'Server error' });

@@ -1,7 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import type { Group } from '@/types';
-import { fetchGroups, fetchGroupMembers } from '../../../api/groups';
+import type { Group, PickSum } from '@/types';
+import {
+  fetchGroups,
+  fetchGroupMembers,
+  fetchGroupPicks,
+} from '../../../api/groups';
 import { getToken } from '../../../services/auth';
 import { RootState } from '@/app/store';
 
@@ -37,6 +41,21 @@ export const fetchGroupsThunk = createAsyncThunk(
     }
   }
 );
+export const fetchGroupPicksThunk = createAsyncThunk(
+  'groups/fetchGroupPicks',
+  async (groupId: number): Promise<PickSum[]> => {
+    try {
+      console.log('fetchGroupPicksThunk');
+      const token = await getToken();
+      const response = await fetchGroupPicks(token, groupId);
+      const picks = response as PickSum[];
+      return picks;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+);
 
 export const groupSlice = createSlice({
   name: 'groups',
@@ -60,6 +79,21 @@ export const groupSlice = createSlice({
       state.loading = false;
       state.error = action.error.message || 'Failed to fetch groups';
     });
+
+    //GroupPicks
+    builder.addCase(fetchGroupPicksThunk.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(fetchGroupPicksThunk.fulfilled, (state, action) => {
+      state.loading = false;
+      state.groups = (action.payload as Group[]) || [];
+    });
+    builder.addCase(fetchGroupPicksThunk.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message || 'Failed to fetch groups';
+    });
+  },
   },
 });
 

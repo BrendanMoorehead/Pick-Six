@@ -4,6 +4,13 @@ export type Group = {
   created_at: string;
   created_by: string;
   members: Member[];
+  pickSum: PickSum[];
+};
+
+export type PickSum = {
+  season: number;
+  week: number;
+  userPicks: [];
 };
 
 export type Member = {
@@ -57,4 +64,23 @@ export type Timeframe = {
   last_game_end: string;
   has_started: boolean;
   has_ended: boolean;
+};
+
+//Aggregate Picks Section
+//All picks by a group.
+export type GroupPicks = {
+  picks: PicksByWeek[];
+  group_id: number;
+};
+//All picks for a given week and season.
+export type PicksByWeek = {
+  week: number;
+  season: number;
+  picks: AggregatePicks[];
+};
+//The picks count for a given user id.
+export type AggregatePicks = {
+  user_id: string;
+  total_picks: number;
+  correct_picks: number;
 };

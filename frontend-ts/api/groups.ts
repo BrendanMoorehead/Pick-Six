@@ -1,4 +1,4 @@
-import { Group, Member } from '@/types';
+import { Group, Member, PickSum } from '@/types';
 
 export type CreateGroupRequest = {
   group_name: string;
@@ -61,6 +61,33 @@ export async function fetchGroups(token: string): Promise<{ groups: Group[] }> {
   const data: Group[] = await response.json();
   console.log('Fetched Response:', data);
   return { groups: data };
+}
+
+export async function fetchGroupPicks(
+  token: string,
+  group_id: number
+): Promise<PickSum[]> {
+  if (!token) throw new Error('User not authenticated (fetchGroups)');
+  console.log('Fetching groups picks with token:', token);
+  const response = await fetch(
+    `http://localhost:5001/picks/get_aggregate_group_picks?group_id=${group_id}`,
+    {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    }
+  );
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    console.log('Response Error:', errorText);
+    throw new Error(`Failed to fetch group picks: ${errorText}`);
+  }
+  const data: PickSum[] = await response.json();
+  console.log('Fetched Response:', data);
+  return data;
 }
 
 export async function fetchGroupMembers(
